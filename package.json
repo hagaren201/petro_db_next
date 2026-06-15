@@ -1,0 +1,28 @@
+{
+  "name": "petro-db-vercel",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "data:build": "node scripts/build-data.mjs",
+    "predev": "npm run data:build",
+    "dev": "next dev",
+    "prebuild": "npm run data:build",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "lucide-react": "latest",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "xlsx": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "typescript": "latest"
+  }
+}
