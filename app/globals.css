@@ -98,6 +98,11 @@ main {
   padding: 32px clamp(18px, 4vw, 56px) 64px;
 }
 
+.landing-page {
+  min-height: calc(100vh - 72px);
+  padding-top: clamp(40px, 8vh, 96px);
+}
+
 .page-head {
   display: grid;
   gap: 10px;
@@ -148,6 +153,13 @@ h3 {
   gap: 16px;
 }
 
+.stream-selector {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(128px, 1fr));
+  gap: 14px;
+  margin-top: clamp(42px, 8vh, 92px);
+}
+
 .card {
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -157,10 +169,15 @@ h3 {
 
 .stream-card {
   display: grid;
-  gap: 18px;
-  min-height: 280px;
-  padding: 20px;
+  align-content: space-between;
+  gap: 22px;
+  min-height: clamp(260px, 36vh, 390px);
+  padding: 22px;
   overflow: hidden;
+  box-shadow: none;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--stream-color), white 92%) 0%, #fff 54%),
+    #fff;
 }
 
 .stream-card:hover {
@@ -169,7 +186,25 @@ h3 {
   border-color: color-mix(in srgb, var(--stream-color), #111 12%);
 }
 
-.stream-chip,
+.stream-card h2 {
+  align-self: center;
+  color: #17202b;
+  font-size: clamp(30px, 3.1vw, 48px);
+  font-weight: 680;
+}
+
+.stream-card .button {
+  justify-self: start;
+  background: transparent;
+}
+
+.stream-card-accent {
+  width: 38px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--stream-color);
+}
+
 .badge {
   display: inline-flex;
   width: fit-content;
@@ -182,17 +217,6 @@ h3 {
   color: #344252;
   font-size: 12px;
   font-weight: 650;
-}
-
-.stream-chip {
-  background: color-mix(in srgb, var(--stream-color), white 82%);
-  color: color-mix(in srgb, var(--stream-color), #111 35%);
-}
-
-.metrics {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
 }
 
 .metric {
@@ -210,13 +234,6 @@ h3 {
 .metric span {
   color: var(--muted);
   font-size: 12px;
-}
-
-.product-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  color: #3d4856;
 }
 
 .section {
@@ -446,7 +463,12 @@ th {
     grid-template-columns: 1fr;
   }
 
-  .metrics {
-    grid-template-columns: 1fr;
+  .stream-selector {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 28px;
+  }
+
+  .stream-card {
+    min-height: 190px;
   }
 }

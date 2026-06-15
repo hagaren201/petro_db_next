@@ -9,12 +9,12 @@ const outDir = path.join(root, "data", "generated")
 const outPath = path.join(outDir, "petro-data.json")
 
 const streamDefs = [
+  { slug: "methanol", key: "C1", label: "Methanol / C1", category: "Methanol", roots: ["Methanol"], color: "#7c3aed" },
   { slug: "c2", key: "C2", label: "C2 / Ethylene", category: "Ethylene", roots: ["Ethylene"], color: "#2563eb" },
   { slug: "c3", key: "C3", label: "C3 / Propylene", category: "Propylene", roots: ["Propylene"], color: "#d97706" },
   { slug: "c4", key: "C4", label: "C4", category: "C4", roots: ["Butadiene", "1-Butene", "Isobutylene"], color: "#16a34a" },
   { slug: "c5", key: "C5", label: "C5", category: "C5", roots: ["Isoprene", "Piperylene", "DCPD"], color: "#65a30d" },
-  { slug: "aromatics", key: "Aromatics", label: "Aromatics", category: "Aromatics", roots: ["Benzene", "Toluene", "Xylene"], color: "#dc2626" },
-  { slug: "methanol", key: "C1", label: "Methanol / C1", category: "Methanol", roots: ["Methanol"], color: "#7c3aed" }
+  { slug: "aromatics", key: "Aromatics", label: "Aromatics", category: "Aromatics", roots: ["Benzene", "Toluene", "Xylene"], color: "#dc2626" }
 ]
 
 const aromaticsGroups = new Set(["Aromatics", "Benzene", "Toluene", "Xylene"])
