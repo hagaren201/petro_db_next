@@ -1,8 +1,9 @@
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { ArrowLeft } from "lucide-react"
-import { buildStreamGraph, getStream, streamOverview } from "@/lib/data"
-import { StreamMap } from "@/components/StreamMap"
+import { buildStreamGraph, getStream } from "@/lib/data"
+import { buildStreamTree } from "@/lib/tree"
+import { StreamViews } from "@/components/StreamViews"
 
 export function generateStaticParams() {
   return ["c2", "c3", "c4", "c5", "aromatics", "methanol"].map((stream) => ({ stream }))
@@ -13,27 +14,19 @@ export default async function StreamPage({ params }: { params: Promise<{ stream:
   const stream = getStream(slug)
   if (!stream) notFound()
   const graph = buildStreamGraph(stream)
-  const overview = streamOverview(stream)
+  const treeGroups = buildStreamTree(graph)
 
   return (
-    <main>
-      <section className="page-head">
+    <main className="stream-page">
+      <section className="page-head stream-head">
         <Link className="button" href="/"><ArrowLeft size={16} /> Streams</Link>
         <span className="eyebrow">{stream.key} value chain</span>
         <h1>{stream.label}</h1>
-        <p className="lead">
-          Lane-based downstream view from {stream.roots.join(", ")} into intermediates, monomers, polymers, and functional materials.
-        </p>
-      </section>
-
-      <section className="grid">
-        <div className="metric card"><strong>{overview.materialCount}</strong><span>materials in stream</span></div>
-        <div className="metric card"><strong>{overview.routeCount}</strong><span>mapped production routes</span></div>
-        <div className="metric card"><strong>{overview.supplierCount}</strong><span>domestic supplier records</span></div>
+        <p className="lead">Downstream value chain map</p>
       </section>
 
       <section className="section">
-        <StreamMap graph={graph} />
+        <StreamViews graph={graph} treeGroups={treeGroups} />
       </section>
     </main>
   )

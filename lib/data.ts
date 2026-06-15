@@ -4,12 +4,12 @@ import type { Edge, Material, PetroData, RawTrade, StreamDefinition } from "./ty
 export const petroData = data as PetroData
 
 export const typeColors: Record<string, string> = {
-  "Base chemical": "#111827",
-  Intermediate: "#0f766e",
-  Monomer: "#2563eb",
-  Polymer: "#7c3aed",
-  "Functional Material": "#c2410c",
-  Other: "#64748b"
+  "Base chemical": "#334155",
+  Intermediate: "#4f766f",
+  Monomer: "#536f9b",
+  Polymer: "#76639a",
+  "Functional Material": "#9a6b53",
+  Other: "#7a8490"
 }
 
 export function getStream(slug: string) {
