@@ -17,7 +17,7 @@ export function StreamMap({ graph }: { graph: StreamGraph }) {
                 className="node-card"
                 href={`/materials/${node.id}`}
                 key={node.id}
-                style={{ "--type-color": typeColors[node.type] || typeColors.Other } as CSSProperties}
+                style={{ "--type-color": typeColors[node.type] || typeColors.Other } as CustomProperties}
               >
                 <span className="node-name">{node.name}</span>
                 <span className="node-meta">
@@ -46,3 +46,5 @@ export function StreamMap({ graph }: { graph: StreamGraph }) {
     </div>
   )
 }
+
+type CustomProperties = CSSProperties & Record<`--${string}`, string>

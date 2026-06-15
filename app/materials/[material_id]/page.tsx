@@ -30,6 +30,11 @@ export default async function MaterialPage({ params }: { params: Promise<{ mater
   const trade = getMaterialTrade(material.id)
   const rawTrade = getRawTradeForMaterial(material.id)
   const licensors = petroData.outputLicensors[material.id] || []
+  const flags = [
+    material.ccma ? "CCMA" : "",
+    material.ceh ? "CEH" : "",
+    material.isUlsanFlag ? "Ulsan" : ""
+  ].filter(Boolean)
 
   return (
     <main>
@@ -48,7 +53,7 @@ export default async function MaterialPage({ params }: { params: Promise<{ mater
             <div className="kv"><span>Group</span><span>{material.group}</span></div>
             <div className="kv"><span>Type</span><span><TypeBadge type={material.type} /> {material.subtype}</span></div>
             <div className="kv"><span>HSK10</span><span>{material.hsk10 || "-"}</span></div>
-            <div className="kv"><span>Flags</span><span>{material.ccma ? "CCMA " : ""}{material.ceh ? "CEH " : ""}{material.isUlsanFlag ? "Ulsan" : "" || "-"}</span></div>
+            <div className="kv"><span>Flags</span><span>{flags.join(" / ") || "-"}</span></div>
           </div>
 
           <div className="panel stack">

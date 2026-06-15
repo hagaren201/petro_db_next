@@ -19,7 +19,7 @@ export default function HomePage() {
         {petroData.streamDefs.map((stream) => {
           const overview = streamOverview(stream)
           return (
-            <Link className="card stream-card" href={`/streams/${stream.slug}`} key={stream.slug} style={{ "--stream-color": stream.color } as CSSProperties}>
+            <Link className="card stream-card" href={`/streams/${stream.slug}`} key={stream.slug} style={{ "--stream-color": stream.color } as CustomProperties}>
               <span className="stream-chip">{stream.label}</span>
               <h2>{stream.label}</h2>
               <div className="metrics">
@@ -47,3 +47,5 @@ export default function HomePage() {
     </main>
   )
 }
+
+type CustomProperties = CSSProperties & Record<`--${string}`, string>
