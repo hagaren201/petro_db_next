@@ -1,12 +1,12 @@
 {
   "sourceStats": {
-    "generatedAt": "2026-06-15T13:44:58.432Z",
+    "generatedAt": "2026-06-21T13:30:02.972Z",
     "dbWorkbook": "data/source/db.xlsx",
     "tradeWorkbook": "data/source/trade.xlsx",
-    "materialCount": 113,
-    "routeCount": 102,
-    "edgeCount": 118,
-    "supplierCount": 55,
+    "materialCount": 114,
+    "routeCount": 103,
+    "edgeCount": 119,
+    "supplierCount": 58,
     "licensorCount": 28,
     "tradeCodeCount": 60
   },
@@ -299,7 +299,7 @@
       "remarks": "Monoethanolamine",
       "visualExclude": false,
       "ccma": false,
-      "ceh": false,
+      "ceh": true,
       "hasSupplierFlag": false,
       "isUlsanFlag": false
     },
@@ -315,7 +315,7 @@
       "remarks": "Diethanolamine",
       "visualExclude": false,
       "ccma": false,
-      "ceh": false,
+      "ceh": true,
       "hasSupplierFlag": false,
       "isUlsanFlag": false
     },
@@ -331,7 +331,7 @@
       "remarks": "Triethanolamine",
       "visualExclude": false,
       "ccma": false,
-      "ceh": false,
+      "ceh": true,
       "hasSupplierFlag": false,
       "isUlsanFlag": false
     },
@@ -443,7 +443,7 @@
       "remarks": "Styrene Acrylonitrile",
       "visualExclude": true,
       "ccma": false,
-      "ceh": false,
+      "ceh": true,
       "hasSupplierFlag": true,
       "isUlsanFlag": true
     },
@@ -459,7 +459,7 @@
       "remarks": "Nitrile Butadiene Rubber",
       "visualExclude": false,
       "ccma": false,
-      "ceh": false,
+      "ceh": true,
       "hasSupplierFlag": true,
       "isUlsanFlag": true
     },
@@ -507,7 +507,7 @@
       "remarks": "Propylene glycol",
       "visualExclude": false,
       "ccma": false,
-      "ceh": false,
+      "ceh": true,
       "hasSupplierFlag": true,
       "isUlsanFlag": true
     },
@@ -523,7 +523,7 @@
       "remarks": "Polypropylene glycol",
       "visualExclude": false,
       "ccma": false,
-      "ceh": false,
+      "ceh": true,
       "hasSupplierFlag": true,
       "isUlsanFlag": true
     },
@@ -536,10 +536,10 @@
       "subtype": "Polyol",
       "verticalOrder": 3330,
       "hsk10": "",
-      "remarks": "",
+      "remarks": "Polyether Polyols",
       "visualExclude": false,
       "ccma": false,
-      "ceh": false,
+      "ceh": true,
       "hasSupplierFlag": false,
       "isUlsanFlag": false
     },
@@ -828,7 +828,7 @@
       "visualExclude": false,
       "ccma": false,
       "ceh": true,
-      "hasSupplierFlag": false,
+      "hasSupplierFlag": true,
       "isUlsanFlag": false
     },
     {
@@ -871,7 +871,7 @@
       "type": "Polymer",
       "subtype": "Synthetic Rubber",
       "verticalOrder": 4220,
-      "hsk10": "",
+      "hsk10": "4002319000",
       "remarks": "IIR(Isobutylene Isoprene Rubber)",
       "visualExclude": true,
       "ccma": false,
@@ -956,8 +956,8 @@
       "visualExclude": false,
       "ccma": true,
       "ceh": true,
-      "hasSupplierFlag": false,
-      "isUlsanFlag": false
+      "hasSupplierFlag": true,
+      "isUlsanFlag": true
     },
     {
       "id": "M056",
@@ -1116,7 +1116,7 @@
       "visualExclude": false,
       "ccma": false,
       "ceh": true,
-      "hasSupplierFlag": false,
+      "hasSupplierFlag": true,
       "isUlsanFlag": false
     },
     {
@@ -1395,15 +1395,15 @@
       "id": "M083",
       "group": "Ethylene",
       "category": "Ethylene",
-      "name": "PVA",
+      "name": "PVOH",
       "type": "Polymer",
       "subtype": "Functional Polymer",
       "verticalOrder": 2610,
-      "hsk10": "",
+      "hsk10": "3905300000",
       "remarks": "Polyvinyl alcohol",
       "visualExclude": false,
       "ccma": false,
-      "ceh": false,
+      "ceh": true,
       "hasSupplierFlag": false,
       "isUlsanFlag": false
     },
@@ -1435,7 +1435,7 @@
       "remarks": "Methylene Diphenyl Disocyanate",
       "visualExclude": false,
       "ccma": false,
-      "ceh": false,
+      "ceh": true,
       "hasSupplierFlag": true,
       "isUlsanFlag": false
     },
@@ -1451,7 +1451,7 @@
       "remarks": "Toluene Diisocyanate",
       "visualExclude": false,
       "ccma": false,
-      "ceh": false,
+      "ceh": true,
       "hasSupplierFlag": true,
       "isUlsanFlag": false
     },
@@ -1564,8 +1564,8 @@
       "visualExclude": false,
       "ccma": true,
       "ceh": true,
-      "hasSupplierFlag": false,
-      "isUlsanFlag": false
+      "hasSupplierFlag": true,
+      "isUlsanFlag": true
     },
     {
       "id": "M094",
@@ -1627,7 +1627,7 @@
       "remarks": "Ethylene Propylene Diene Monomer, Ethylene Propylene Terpolymer(EPT)",
       "visualExclude": false,
       "ccma": false,
-      "ceh": false,
+      "ceh": true,
       "hasSupplierFlag": true,
       "isUlsanFlag": false
     },
@@ -1644,7 +1644,7 @@
       "visualExclude": false,
       "ccma": false,
       "ceh": false,
-      "hasSupplierFlag": false,
+      "hasSupplierFlag": true,
       "isUlsanFlag": false
     },
     {
@@ -1708,7 +1708,7 @@
       "visualExclude": false,
       "ccma": false,
       "ceh": true,
-      "hasSupplierFlag": false,
+      "hasSupplierFlag": true,
       "isUlsanFlag": false
     },
     {
@@ -1739,7 +1739,7 @@
       "remarks": "Dicyclopentadiene",
       "visualExclude": false,
       "ccma": false,
-      "ceh": false,
+      "ceh": true,
       "hasSupplierFlag": false,
       "isUlsanFlag": false
     },
@@ -1779,7 +1779,7 @@
       "id": "M107",
       "group": "Propylene",
       "category": "Propylene",
-      "name": "i-Butyraldehyde",
+      "name": "i-butyraldehyde",
       "type": "Intermediate",
       "subtype": "Aldehyde",
       "verticalOrder": 3600,
@@ -1819,7 +1819,7 @@
       "remarks": "Unsaturated Polyester Resin",
       "visualExclude": false,
       "ccma": false,
-      "ceh": false,
+      "ceh": true,
       "hasSupplierFlag": false,
       "isUlsanFlag": false
     },
@@ -1885,6 +1885,22 @@
       "ccma": false,
       "ceh": false,
       "hasSupplierFlag": false,
+      "isUlsanFlag": false
+    },
+    {
+      "id": "M114",
+      "group": "Benzene",
+      "category": "Aromatics",
+      "name": "Chlorobenzene",
+      "type": "Intermediate",
+      "subtype": "Chlorinated Intermediate",
+      "verticalOrder": 6500,
+      "hsk10": "2903911000",
+      "remarks": "MCB(Mono Chlorobenzene)",
+      "visualExclude": false,
+      "ccma": false,
+      "ceh": true,
+      "hasSupplierFlag": true,
       "isUlsanFlag": false
     }
   ],
@@ -2388,7 +2404,7 @@
     },
     {
       "id": "R072",
-      "name": "VAM to PVA",
+      "name": "VAM to PVOH",
       "category": "Polymerization/Hydrolysis",
       "depth": "2",
       "remarks": ""
@@ -2600,6 +2616,13 @@
       "id": "R102",
       "name": "Piperylene to C5 resin",
       "category": "Polymerization",
+      "depth": "1",
+      "remarks": ""
+    },
+    {
+      "id": "R103",
+      "name": "Benzene to Chlorobenzene",
+      "category": "Chlorination",
       "depth": "1",
       "remarks": ""
     }
@@ -3510,6 +3533,14 @@
         "seqNo": "1",
         "remarks": ""
       }
+    ],
+    "R103": [
+      {
+        "materialId": "M054",
+        "inputRole": "main",
+        "seqNo": "1",
+        "remarks": ""
+      }
     ]
   },
   "routeOutputs": {
@@ -4330,6 +4361,12 @@
     "R102": [
       {
         "materialId": "M113",
+        "outputRole": "main product",
+        "seqNo": "1",
+        "remarks": ""
+      },
+      {
+        "materialId": "M114",
         "outputRole": "main product",
         "seqNo": "1",
         "remarks": ""
@@ -5644,7 +5681,7 @@
       "src": "M019",
       "dst": "M083",
       "routeId": "R072",
-      "routeName": "VAM to PVA",
+      "routeName": "VAM to PVOH",
       "routeCategory": "Polymerization/Hydrolysis",
       "inputRole": "main",
       "outputRole": "main product",
@@ -5987,6 +6024,16 @@
     {
       "src": "M103",
       "dst": "M113",
+      "routeId": "R102",
+      "routeName": "Piperylene to C5 resin",
+      "routeCategory": "Polymerization",
+      "inputRole": "main",
+      "outputRole": "main product",
+      "licensors": []
+    },
+    {
+      "src": "M103",
+      "dst": "M114",
       "routeId": "R102",
       "routeName": "Piperylene to C5 resin",
       "routeCategory": "Polymerization",
@@ -6604,7 +6651,8 @@
     "M110": [],
     "M111": [],
     "M112": [],
-    "M113": []
+    "M113": [],
+    "M114": []
   },
   "supplierById": {
     "S001": {
@@ -6880,6 +6928,21 @@
     "S055": {
       "id": "S055",
       "name": "SH에너지화학",
+      "remarks": ""
+    },
+    "S056": {
+      "id": "S056",
+      "name": "롯데정밀화학",
+      "remarks": ""
+    },
+    "S057": {
+      "id": "S057",
+      "name": "도레이첨단소재",
+      "remarks": ""
+    },
+    "S058": {
+      "id": "S058",
+      "name": "티케이케미칼",
       "remarks": ""
     }
   },
@@ -8409,6 +8472,19 @@
         "remarks": ""
       }
     ],
+    "M047": [
+      {
+        "supplierId": "S036",
+        "supplierName": "DL케미칼",
+        "estimatedCapacity": "220",
+        "capacityValue": 220,
+        "capacityUnit": "KTA",
+        "location": "여수",
+        "sourceType": "기사",
+        "sourceYear": "2024",
+        "remarks": ""
+      }
+    ],
     "M048": [
       {
         "supplierId": "S032",
@@ -8690,6 +8766,74 @@
         "remarks": ""
       }
     ],
+    "M055": [
+      {
+        "supplierId": "S005",
+        "supplierName": "롯데케미칼",
+        "estimatedCapacity": "233",
+        "capacityValue": 233,
+        "capacityUnit": "KTA",
+        "location": "대산",
+        "sourceType": "S&P CEH",
+        "sourceYear": "2024",
+        "remarks": ""
+      },
+      {
+        "supplierId": "S005",
+        "supplierName": "롯데케미칼",
+        "estimatedCapacity": "440",
+        "capacityValue": 440,
+        "capacityUnit": "KTA",
+        "location": "대산",
+        "sourceType": "S&P CEH",
+        "sourceYear": "2024",
+        "remarks": ""
+      },
+      {
+        "supplierId": "S042",
+        "supplierName": "여천NCC",
+        "estimatedCapacity": "370",
+        "capacityValue": 370,
+        "capacityUnit": "KTA",
+        "location": "여수",
+        "sourceType": "S&P CEH",
+        "sourceYear": "2024",
+        "remarks": ""
+      },
+      {
+        "supplierId": "S047",
+        "supplierName": "한화토탈에너지스",
+        "estimatedCapacity": "440",
+        "capacityValue": 440,
+        "capacityUnit": "KTA",
+        "location": "대산",
+        "sourceType": "S&P CEH",
+        "sourceYear": "2024",
+        "remarks": ""
+      },
+      {
+        "supplierId": "S047",
+        "supplierName": "한화토탈에너지스",
+        "estimatedCapacity": "715",
+        "capacityValue": 715,
+        "capacityUnit": "KTA",
+        "location": "대산",
+        "sourceType": "S&P CEH",
+        "sourceYear": "2024",
+        "remarks": ""
+      },
+      {
+        "supplierId": "S014",
+        "supplierName": "SK picglobal",
+        "estimatedCapacity": "438",
+        "capacityValue": 438,
+        "capacityUnit": "KTA",
+        "location": "울산",
+        "sourceType": "S&P CEH",
+        "sourceYear": "2024",
+        "remarks": ""
+      }
+    ],
     "M056": [
       {
         "supplierId": "S005",
@@ -8802,6 +8946,63 @@
         "sourceType": "화학편람",
         "sourceYear": "2025",
         "remarks": "EPS(100)"
+      }
+    ],
+    "M058": [
+      {
+        "supplierId": "S035",
+        "supplierName": "금호피앤비화학",
+        "estimatedCapacity": "430",
+        "capacityValue": 430,
+        "capacityUnit": "KTA",
+        "location": "여수",
+        "sourceType": "S&P CEH",
+        "sourceYear": "2025",
+        "remarks": ""
+      },
+      {
+        "supplierId": "S035",
+        "supplierName": "금호피앤비화학",
+        "estimatedCapacity": "470",
+        "capacityValue": 470,
+        "capacityUnit": "KTA",
+        "location": "여수",
+        "sourceType": "S&P CEH",
+        "sourceYear": "2025",
+        "remarks": ""
+      },
+      {
+        "supplierId": "S045",
+        "supplierName": "롯데GS화학",
+        "estimatedCapacity": "475",
+        "capacityValue": 475,
+        "capacityUnit": "KTA",
+        "location": "여수",
+        "sourceType": "S&P CEH",
+        "sourceYear": "2025",
+        "remarks": ""
+      },
+      {
+        "supplierId": "S041",
+        "supplierName": "LG화학",
+        "estimatedCapacity": "450",
+        "capacityValue": 450,
+        "capacityUnit": "KTA",
+        "location": "대산",
+        "sourceType": "S&P CEH",
+        "sourceYear": "2025",
+        "remarks": ""
+      },
+      {
+        "supplierId": "S041",
+        "supplierName": "LG화학",
+        "estimatedCapacity": "450",
+        "capacityValue": 450,
+        "capacityUnit": "KTA",
+        "location": "여수",
+        "sourceType": "S&P CEH",
+        "sourceYear": "2025",
+        "remarks": ""
       }
     ],
     "M059": [
@@ -9732,6 +9933,54 @@
         "remarks": ""
       }
     ],
+    "M098": [
+      {
+        "supplierId": "S056",
+        "supplierName": "롯데정밀화학",
+        "estimatedCapacity": "132",
+        "capacityValue": 132,
+        "capacityUnit": "KTA",
+        "location": "여수",
+        "sourceType": "S&P CEH",
+        "sourceYear": "2024",
+        "remarks": ""
+      },
+      {
+        "supplierId": "S029",
+        "supplierName": "한화솔루션",
+        "estimatedCapacity": "25",
+        "capacityValue": 25,
+        "capacityUnit": "KTA",
+        "location": "여수",
+        "sourceType": "S&P CEH",
+        "sourceYear": "2024",
+        "remarks": ""
+      }
+    ],
+    "M102": [
+      {
+        "supplierId": "S005",
+        "supplierName": "롯데케미칼",
+        "estimatedCapacity": "32",
+        "capacityValue": 32,
+        "capacityUnit": "KTA",
+        "location": "여수",
+        "sourceType": "S&P CEH",
+        "sourceYear": "2023",
+        "remarks": ""
+      },
+      {
+        "supplierId": "S042",
+        "supplierName": "여천NCC",
+        "estimatedCapacity": "38",
+        "capacityValue": 38,
+        "capacityUnit": "KTA",
+        "location": "여수",
+        "sourceType": "S&P CEH",
+        "sourceYear": "2023",
+        "remarks": ""
+      }
+    ],
     "M107": [
       {
         "supplierId": "S029",
@@ -9767,58 +10016,73 @@
         "remarks": ""
       }
     ],
-    "M058": [
+    "M114": [
       {
-        "supplierId": "S035",
-        "supplierName": "금호피앤비화학",
-        "estimatedCapacity": "430",
-        "capacityValue": 430,
+        "supplierId": "S057",
+        "supplierName": "도레이첨단소재",
+        "estimatedCapacity": "14",
+        "capacityValue": 14,
+        "capacityUnit": "KTA",
+        "location": "군산",
+        "sourceType": "S&P CEH",
+        "sourceYear": "2024",
+        "remarks": "p-dichlorobenzene(14)"
+      }
+    ],
+    "M065": [
+      {
+        "supplierId": "S033",
+        "supplierName": "금호미쓰이화학",
+        "estimatedCapacity": "320",
+        "capacityValue": 320,
         "capacityUnit": "KTA",
         "location": "여수",
         "sourceType": "S&P CEH",
-        "sourceYear": "2025",
+        "sourceYear": "2024",
         "remarks": ""
       },
       {
-        "supplierId": "S035",
-        "supplierName": "금호피앤비화학",
-        "estimatedCapacity": "470",
-        "capacityValue": 470,
+        "supplierId": "S025",
+        "supplierName": "한국바스프",
+        "estimatedCapacity": "155",
+        "capacityValue": 155,
         "capacityUnit": "KTA",
         "location": "여수",
         "sourceType": "S&P CEH",
-        "sourceYear": "2025",
+        "sourceYear": "2024",
         "remarks": ""
-      },
+      }
+    ],
+    "M093": [
       {
-        "supplierId": "S045",
-        "supplierName": "롯데GS화학",
-        "estimatedCapacity": "475",
-        "capacityValue": 475,
-        "capacityUnit": "KTA",
-        "location": "여수",
-        "sourceType": "S&P CEH",
-        "sourceYear": "2025",
-        "remarks": ""
-      },
-      {
-        "supplierId": "S041",
-        "supplierName": "LG화학",
+        "supplierId": "S005",
+        "supplierName": "롯데케미칼",
         "estimatedCapacity": "450",
         "capacityValue": 450,
         "capacityUnit": "KTA",
-        "location": "대산",
+        "location": "울산",
         "sourceType": "S&P CEH",
         "sourceYear": "2025",
         "remarks": ""
       },
       {
-        "supplierId": "S041",
-        "supplierName": "LG화학",
-        "estimatedCapacity": "450",
-        "capacityValue": 450,
+        "supplierId": "S058",
+        "supplierName": "티케이케미칼",
+        "estimatedCapacity": "280",
+        "capacityValue": 280,
         "capacityUnit": "KTA",
-        "location": "여수",
+        "location": "구미",
+        "sourceType": "S&P CEH",
+        "sourceYear": "2025",
+        "remarks": ""
+      },
+      {
+        "supplierId": "S011",
+        "supplierName": "SK지오센트릭",
+        "estimatedCapacity": "20",
+        "capacityValue": 20,
+        "capacityUnit": "KTA",
+        "location": "수원",
         "sourceType": "S&P CEH",
         "sourceYear": "2025",
         "remarks": ""
@@ -10380,14 +10644,16 @@
       "locations": []
     },
     "M047": {
-      "hasDomesticSupplier": false,
+      "hasDomesticSupplier": true,
       "hasUlsanSupplier": false,
-      "domesticSupplierNames": "X",
+      "domesticSupplierNames": "DL케미칼",
       "ulsanSupplierNames": "X",
-      "domesticCapacity": "X",
-      "totalCapacity": 0,
-      "capacityUnit": "",
-      "locations": []
+      "domesticCapacity": "DL케미칼: 220 KTA",
+      "totalCapacity": 220,
+      "capacityUnit": "KTA",
+      "locations": [
+        "여수"
+      ]
     },
     "M048": {
       "hasDomesticSupplier": true,
@@ -10472,14 +10738,18 @@
       ]
     },
     "M055": {
-      "hasDomesticSupplier": false,
-      "hasUlsanSupplier": false,
-      "domesticSupplierNames": "X",
-      "ulsanSupplierNames": "X",
-      "domesticCapacity": "X",
-      "totalCapacity": 0,
-      "capacityUnit": "",
-      "locations": []
+      "hasDomesticSupplier": true,
+      "hasUlsanSupplier": true,
+      "domesticSupplierNames": "SK picglobal, 롯데케미칼, 여천NCC, 한화토탈에너지스",
+      "ulsanSupplierNames": "SK picglobal",
+      "domesticCapacity": "롯데케미칼: 233 KTA; 롯데케미칼: 440 KTA; 여천NCC: 370 KTA; 한화토탈에너지스: 440 KTA; 한화토탈에너지스: 715 KTA; SK picglobal: 438 KTA",
+      "totalCapacity": 2636,
+      "capacityUnit": "KTA",
+      "locations": [
+        "대산",
+        "여수",
+        "울산"
+      ]
     },
     "M056": {
       "hasDomesticSupplier": true,
@@ -10602,14 +10872,16 @@
       ]
     },
     "M065": {
-      "hasDomesticSupplier": false,
+      "hasDomesticSupplier": true,
       "hasUlsanSupplier": false,
-      "domesticSupplierNames": "X",
+      "domesticSupplierNames": "금호미쓰이화학, 한국바스프",
       "ulsanSupplierNames": "X",
-      "domesticCapacity": "X",
-      "totalCapacity": 0,
-      "capacityUnit": "",
-      "locations": []
+      "domesticCapacity": "금호미쓰이화학: 320 KTA; 한국바스프: 155 KTA",
+      "totalCapacity": 475,
+      "capacityUnit": "KTA",
+      "locations": [
+        "여수"
+      ]
     },
     "M066": {
       "hasDomesticSupplier": true,
@@ -10928,14 +11200,18 @@
       "locations": []
     },
     "M093": {
-      "hasDomesticSupplier": false,
-      "hasUlsanSupplier": false,
-      "domesticSupplierNames": "X",
-      "ulsanSupplierNames": "X",
-      "domesticCapacity": "X",
-      "totalCapacity": 0,
-      "capacityUnit": "",
-      "locations": []
+      "hasDomesticSupplier": true,
+      "hasUlsanSupplier": true,
+      "domesticSupplierNames": "SK지오센트릭, 롯데케미칼, 티케이케미칼",
+      "ulsanSupplierNames": "롯데케미칼",
+      "domesticCapacity": "롯데케미칼: 450 KTA; 티케이케미칼: 280 KTA; SK지오센트릭: 20 KTA",
+      "totalCapacity": 750,
+      "capacityUnit": "KTA",
+      "locations": [
+        "구미",
+        "수원",
+        "울산"
+      ]
     },
     "M094": {
       "hasDomesticSupplier": false,
@@ -10980,14 +11256,16 @@
       ]
     },
     "M098": {
-      "hasDomesticSupplier": false,
+      "hasDomesticSupplier": true,
       "hasUlsanSupplier": false,
-      "domesticSupplierNames": "X",
+      "domesticSupplierNames": "롯데정밀화학, 한화솔루션",
       "ulsanSupplierNames": "X",
-      "domesticCapacity": "X",
-      "totalCapacity": 0,
-      "capacityUnit": "",
-      "locations": []
+      "domesticCapacity": "롯데정밀화학: 132 KTA; 한화솔루션: 25 KTA",
+      "totalCapacity": 157,
+      "capacityUnit": "KTA",
+      "locations": [
+        "여수"
+      ]
     },
     "M099": {
       "hasDomesticSupplier": false,
@@ -11020,14 +11298,16 @@
       "locations": []
     },
     "M102": {
-      "hasDomesticSupplier": false,
+      "hasDomesticSupplier": true,
       "hasUlsanSupplier": false,
-      "domesticSupplierNames": "X",
+      "domesticSupplierNames": "롯데케미칼, 여천NCC",
       "ulsanSupplierNames": "X",
-      "domesticCapacity": "X",
-      "totalCapacity": 0,
-      "capacityUnit": "",
-      "locations": []
+      "domesticCapacity": "롯데케미칼: 32 KTA; 여천NCC: 38 KTA",
+      "totalCapacity": 70,
+      "capacityUnit": "KTA",
+      "locations": [
+        "여수"
+      ]
     },
     "M103": {
       "hasDomesticSupplier": false,
@@ -11141,6 +11421,18 @@
       "totalCapacity": 0,
       "capacityUnit": "",
       "locations": []
+    },
+    "M114": {
+      "hasDomesticSupplier": true,
+      "hasUlsanSupplier": false,
+      "domesticSupplierNames": "도레이첨단소재",
+      "ulsanSupplierNames": "X",
+      "domesticCapacity": "도레이첨단소재: 14 KTA",
+      "totalCapacity": 14,
+      "capacityUnit": "KTA",
+      "locations": [
+        "군산"
+      ]
     }
   },
   "tradeSummary": [
@@ -12188,6 +12480,106 @@
     },
     {
       "year": 2016,
+      "hsk10": "2901210000",
+      "materialNameHsk": "에틸렌",
+      "export": 753021.1,
+      "import": 146512.8,
+      "diff": -606508.3,
+      "exportImport": "export",
+      "balanceIndex": 0.6742472962942254
+    },
+    {
+      "year": 2017,
+      "hsk10": "2901210000",
+      "materialNameHsk": "에틸렌",
+      "export": 815639,
+      "import": 109420.9,
+      "diff": -706218.1,
+      "exportImport": "export",
+      "balanceIndex": 0.7634295898027792
+    },
+    {
+      "year": 2018,
+      "hsk10": "2901210000",
+      "materialNameHsk": "에틸렌",
+      "export": 823834.4,
+      "import": 133347.9,
+      "diff": -690486.5,
+      "exportImport": "export",
+      "balanceIndex": 0.7213740788980323
+    },
+    {
+      "year": 2019,
+      "hsk10": "2901210000",
+      "materialNameHsk": "에틸렌",
+      "export": 1091131,
+      "import": 108899.8,
+      "diff": -982231.2,
+      "exportImport": "export",
+      "balanceIndex": 0.8185049917052128
+    },
+    {
+      "year": 2020,
+      "hsk10": "2901210000",
+      "materialNameHsk": "에틸렌",
+      "export": 848438.8,
+      "import": 283397.8,
+      "diff": -565041,
+      "exportImport": "export",
+      "balanceIndex": 0.4992248881154753
+    },
+    {
+      "year": 2021,
+      "hsk10": "2901210000",
+      "materialNameHsk": "에틸렌",
+      "export": 1175349.2,
+      "import": 207106.7,
+      "diff": -968242.5,
+      "exportImport": "export",
+      "balanceIndex": 0.7003785798881542
+    },
+    {
+      "year": 2022,
+      "hsk10": "2901210000",
+      "materialNameHsk": "에틸렌",
+      "export": 1586693.5,
+      "import": 141518.3,
+      "diff": -1445175.2,
+      "exportImport": "export",
+      "balanceIndex": 0.836225745015744
+    },
+    {
+      "year": 2023,
+      "hsk10": "2901210000",
+      "materialNameHsk": "에틸렌",
+      "export": 1115011,
+      "import": 162452.8,
+      "diff": -952558.2,
+      "exportImport": "export",
+      "balanceIndex": 0.7456635561806134
+    },
+    {
+      "year": 2024,
+      "hsk10": "2901210000",
+      "materialNameHsk": "에틸렌",
+      "export": 1849089.8,
+      "import": 71196.4,
+      "diff": -1777893.4000000001,
+      "exportImport": "export",
+      "balanceIndex": 0.9258481365954722
+    },
+    {
+      "year": 2025,
+      "hsk10": "2901210000",
+      "materialNameHsk": "에틸렌",
+      "export": 2054889.8,
+      "import": 21711.5,
+      "diff": -2033178.3,
+      "exportImport": "export",
+      "balanceIndex": 0.9790893899565603
+    },
+    {
+      "year": 2016,
       "hsk10": "2901220000",
       "materialNameHsk": "프로펜(프로필렌)",
       "export": 1690407.9,
@@ -12385,6 +12777,106 @@
       "diff": 130671.40000000002,
       "exportImport": "import",
       "balanceIndex": 0.22561900821937111
+    },
+    {
+      "year": 2016,
+      "hsk10": "2901242000",
+      "materialNameHsk": "이소프렌",
+      "export": 13236.8,
+      "import": 1.1,
+      "diff": -13235.699999999999,
+      "exportImport": "export",
+      "balanceIndex": 0.999833810498644
+    },
+    {
+      "year": 2017,
+      "hsk10": "2901242000",
+      "materialNameHsk": "이소프렌",
+      "export": 53752.1,
+      "import": 0.1,
+      "diff": -53752,
+      "exportImport": "export",
+      "balanceIndex": 0.9999962792220598
+    },
+    {
+      "year": 2018,
+      "hsk10": "2901242000",
+      "materialNameHsk": "이소프렌",
+      "export": 57651.2,
+      "import": 2.1,
+      "diff": -57649.1,
+      "exportImport": "export",
+      "balanceIndex": 0.9999271507441899
+    },
+    {
+      "year": 2019,
+      "hsk10": "2901242000",
+      "materialNameHsk": "이소프렌",
+      "export": 58198.3,
+      "import": 0.1,
+      "diff": -58198.200000000004,
+      "exportImport": "export",
+      "balanceIndex": 0.9999965634794085
+    },
+    {
+      "year": 2020,
+      "hsk10": "2901242000",
+      "materialNameHsk": "이소프렌",
+      "export": 57908.7,
+      "import": 0.1,
+      "diff": -57908.6,
+      "exportImport": "export",
+      "balanceIndex": 0.9999965462934822
+    },
+    {
+      "year": 2021,
+      "hsk10": "2901242000",
+      "materialNameHsk": "이소프렌",
+      "export": 68626.1,
+      "import": 0.1,
+      "diff": -68626,
+      "exportImport": "export",
+      "balanceIndex": 0.9999970856611613
+    },
+    {
+      "year": 2022,
+      "hsk10": "2901242000",
+      "materialNameHsk": "이소프렌",
+      "export": 61491,
+      "import": 0.1,
+      "diff": -61490.9,
+      "exportImport": "export",
+      "balanceIndex": 0.9999967474967922
+    },
+    {
+      "year": 2023,
+      "hsk10": "2901242000",
+      "materialNameHsk": "이소프렌",
+      "export": 37508,
+      "import": 0,
+      "diff": -37508,
+      "exportImport": "export",
+      "balanceIndex": 1
+    },
+    {
+      "year": 2024,
+      "hsk10": "2901242000",
+      "materialNameHsk": "이소프렌",
+      "export": 62257.5,
+      "import": 0.1,
+      "diff": -62257.4,
+      "exportImport": "export",
+      "balanceIndex": 0.9999967875407982
+    },
+    {
+      "year": 2025,
+      "hsk10": "2901242000",
+      "materialNameHsk": "이소프렌",
+      "export": 54625.7,
+      "import": 0,
+      "diff": -54625.7,
+      "exportImport": "export",
+      "balanceIndex": 1
     },
     {
       "year": 2016,
@@ -13785,6 +14277,66 @@
       "diff": -169039.5,
       "exportImport": "export",
       "balanceIndex": 0.58413177698015
+    },
+    {
+      "year": 2016,
+      "hsk10": "2903911000",
+      "materialNameHsk": "클로로벤젠",
+      "export": 5.4,
+      "import": 1837.8,
+      "diff": 1832.3999999999999,
+      "exportImport": "import",
+      "balanceIndex": 0.9941406249999999
+    },
+    {
+      "year": 2017,
+      "hsk10": "2903911000",
+      "materialNameHsk": "클로로벤젠",
+      "export": 118.9,
+      "import": 1011.8,
+      "diff": 892.9,
+      "exportImport": "import",
+      "balanceIndex": 0.7896878040152118
+    },
+    {
+      "year": 2018,
+      "hsk10": "2903911000",
+      "materialNameHsk": "클로로벤젠",
+      "export": 2.3,
+      "import": 459.9,
+      "diff": 457.59999999999997,
+      "exportImport": "import",
+      "balanceIndex": 0.9900475984422328
+    },
+    {
+      "year": 2019,
+      "hsk10": "2903911000",
+      "materialNameHsk": "클로로벤젠",
+      "export": 1,
+      "import": 682.7,
+      "diff": 681.7,
+      "exportImport": "import",
+      "balanceIndex": 0.997074740383209
+    },
+    {
+      "year": 2020,
+      "hsk10": "2903911000",
+      "materialNameHsk": "클로로벤젠",
+      "export": 1.5,
+      "import": 662.8,
+      "diff": 661.3,
+      "exportImport": "import",
+      "balanceIndex": 0.9954839680867078
+    },
+    {
+      "year": 2021,
+      "hsk10": "2903911000",
+      "materialNameHsk": "클로로벤젠",
+      "export": 113,
+      "import": 709.6,
+      "diff": 596.6,
+      "exportImport": "import",
+      "balanceIndex": 0.725261366399222
     },
     {
       "year": 2016,
@@ -18178,6 +18730,106 @@
     },
     {
       "year": 2016,
+      "hsk10": "3905300000",
+      "materialNameHsk": "폴리(비닐알코올)[가수분해되지 않은 초산기(基)를 함유하였는지에 상관없다]",
+      "export": 284.2,
+      "import": 17490.5,
+      "diff": 17206.3,
+      "exportImport": "import",
+      "balanceIndex": 0.9680219638024832
+    },
+    {
+      "year": 2017,
+      "hsk10": "3905300000",
+      "materialNameHsk": "폴리(비닐알코올)[가수분해되지 않은 초산기(基)를 함유하였는지에 상관없다]",
+      "export": 217.9,
+      "import": 17077.3,
+      "diff": 16859.399999999998,
+      "exportImport": "import",
+      "balanceIndex": 0.9748022572736943
+    },
+    {
+      "year": 2018,
+      "hsk10": "3905300000",
+      "materialNameHsk": "폴리(비닐알코올)[가수분해되지 않은 초산기(基)를 함유하였는지에 상관없다]",
+      "export": 201.4,
+      "import": 17732.6,
+      "diff": 17531.199999999997,
+      "exportImport": "import",
+      "balanceIndex": 0.9775398684063787
+    },
+    {
+      "year": 2019,
+      "hsk10": "3905300000",
+      "materialNameHsk": "폴리(비닐알코올)[가수분해되지 않은 초산기(基)를 함유하였는지에 상관없다]",
+      "export": 1058.5,
+      "import": 17693.6,
+      "diff": 16635.1,
+      "exportImport": "import",
+      "balanceIndex": 0.8871059774638573
+    },
+    {
+      "year": 2020,
+      "hsk10": "3905300000",
+      "materialNameHsk": "폴리(비닐알코올)[가수분해되지 않은 초산기(基)를 함유하였는지에 상관없다]",
+      "export": 1010.4,
+      "import": 18948.7,
+      "diff": 17938.3,
+      "exportImport": "import",
+      "balanceIndex": 0.8987529497823047
+    },
+    {
+      "year": 2021,
+      "hsk10": "3905300000",
+      "materialNameHsk": "폴리(비닐알코올)[가수분해되지 않은 초산기(基)를 함유하였는지에 상관없다]",
+      "export": 401.9,
+      "import": 23708.7,
+      "diff": 23306.8,
+      "exportImport": "import",
+      "balanceIndex": 0.9666619661061938
+    },
+    {
+      "year": 2022,
+      "hsk10": "3905300000",
+      "materialNameHsk": "폴리(비닐알코올)[가수분해되지 않은 초산기(基)를 함유하였는지에 상관없다]",
+      "export": 752.3,
+      "import": 21142.1,
+      "diff": 20389.8,
+      "exportImport": "import",
+      "balanceIndex": 0.9312792312189418
+    },
+    {
+      "year": 2023,
+      "hsk10": "3905300000",
+      "materialNameHsk": "폴리(비닐알코올)[가수분해되지 않은 초산기(基)를 함유하였는지에 상관없다]",
+      "export": 926.9,
+      "import": 21085.5,
+      "diff": 20158.6,
+      "exportImport": "import",
+      "balanceIndex": 0.9157838309316566
+    },
+    {
+      "year": 2024,
+      "hsk10": "3905300000",
+      "materialNameHsk": "폴리(비닐알코올)[가수분해되지 않은 초산기(基)를 함유하였는지에 상관없다]",
+      "export": 1383.2,
+      "import": 22031.2,
+      "diff": 20648,
+      "exportImport": "import",
+      "balanceIndex": 0.8818504851715183
+    },
+    {
+      "year": 2025,
+      "hsk10": "3905300000",
+      "materialNameHsk": "폴리(비닐알코올)[가수분해되지 않은 초산기(基)를 함유하였는지에 상관없다]",
+      "export": 1689.6,
+      "import": 20288.3,
+      "diff": 18598.7,
+      "exportImport": "import",
+      "balanceIndex": 0.8462455466627841
+    },
+    {
+      "year": 2016,
       "hsk10": "3906100000",
       "materialNameHsk": "폴리(메틸 메타크리레이트)",
       "export": 143639.8,
@@ -18275,6 +18927,66 @@
       "diff": -86340,
       "exportImport": "export",
       "balanceIndex": 0.8233819885905233
+    },
+    {
+      "year": 2016,
+      "hsk10": "3907202000",
+      "materialNameHsk": "폴리옥시프로필렌(폴리프로필렌 글리콜)",
+      "export": 330546.6,
+      "import": 24359.6,
+      "diff": -306187,
+      "exportImport": "export",
+      "balanceIndex": 0.8627265457746301
+    },
+    {
+      "year": 2017,
+      "hsk10": "3907202000",
+      "materialNameHsk": "폴리옥시프로필렌(폴리프로필렌 글리콜)",
+      "export": 325838.1,
+      "import": 61253.2,
+      "diff": -264584.89999999997,
+      "exportImport": "export",
+      "balanceIndex": 0.6835206577879688
+    },
+    {
+      "year": 2018,
+      "hsk10": "3907202000",
+      "materialNameHsk": "폴리옥시프로필렌(폴리프로필렌 글리콜)",
+      "export": 328607.4,
+      "import": 61660.8,
+      "diff": -266946.60000000003,
+      "exportImport": "export",
+      "balanceIndex": 0.6840080744472647
+    },
+    {
+      "year": 2019,
+      "hsk10": "3907202000",
+      "materialNameHsk": "폴리옥시프로필렌(폴리프로필렌 글리콜)",
+      "export": 398620.7,
+      "import": 53557.2,
+      "diff": -345063.5,
+      "exportImport": "export",
+      "balanceIndex": 0.7631144733079612
+    },
+    {
+      "year": 2020,
+      "hsk10": "3907202000",
+      "materialNameHsk": "폴리옥시프로필렌(폴리프로필렌 글리콜)",
+      "export": 400884.6,
+      "import": 35161.4,
+      "diff": -365723.19999999995,
+      "exportImport": "export",
+      "balanceIndex": 0.8387261894387288
+    },
+    {
+      "year": 2021,
+      "hsk10": "3907202000",
+      "materialNameHsk": "폴리옥시프로필렌(폴리프로필렌 글리콜)",
+      "export": 424585.7,
+      "import": 29635.6,
+      "diff": -394950.10000000003,
+      "exportImport": "export",
+      "balanceIndex": 0.86951030257718
     },
     {
       "year": 2016,
@@ -18577,266 +19289,6 @@
       "balanceIndex": 0.9703247672041707
     },
     {
-      "year": 2016,
-      "hsk10": "2901210000",
-      "materialNameHsk": "에틸렌",
-      "export": 753021.1,
-      "import": 146512.8,
-      "diff": -606508.3,
-      "exportImport": "export",
-      "balanceIndex": 0.6742472962942254
-    },
-    {
-      "year": 2017,
-      "hsk10": "2901210000",
-      "materialNameHsk": "에틸렌",
-      "export": 815639,
-      "import": 109420.9,
-      "diff": -706218.1,
-      "exportImport": "export",
-      "balanceIndex": 0.7634295898027792
-    },
-    {
-      "year": 2018,
-      "hsk10": "2901210000",
-      "materialNameHsk": "에틸렌",
-      "export": 823834.4,
-      "import": 133347.9,
-      "diff": -690486.5,
-      "exportImport": "export",
-      "balanceIndex": 0.7213740788980323
-    },
-    {
-      "year": 2019,
-      "hsk10": "2901210000",
-      "materialNameHsk": "에틸렌",
-      "export": 1091131,
-      "import": 108899.8,
-      "diff": -982231.2,
-      "exportImport": "export",
-      "balanceIndex": 0.8185049917052128
-    },
-    {
-      "year": 2020,
-      "hsk10": "2901210000",
-      "materialNameHsk": "에틸렌",
-      "export": 848438.8,
-      "import": 283397.8,
-      "diff": -565041,
-      "exportImport": "export",
-      "balanceIndex": 0.4992248881154753
-    },
-    {
-      "year": 2021,
-      "hsk10": "2901210000",
-      "materialNameHsk": "에틸렌",
-      "export": 1175349.2,
-      "import": 207106.7,
-      "diff": -968242.5,
-      "exportImport": "export",
-      "balanceIndex": 0.7003785798881542
-    },
-    {
-      "year": 2022,
-      "hsk10": "2901210000",
-      "materialNameHsk": "에틸렌",
-      "export": 1586693.5,
-      "import": 141518.3,
-      "diff": -1445175.2,
-      "exportImport": "export",
-      "balanceIndex": 0.836225745015744
-    },
-    {
-      "year": 2023,
-      "hsk10": "2901210000",
-      "materialNameHsk": "에틸렌",
-      "export": 1115011,
-      "import": 162452.8,
-      "diff": -952558.2,
-      "exportImport": "export",
-      "balanceIndex": 0.7456635561806134
-    },
-    {
-      "year": 2024,
-      "hsk10": "2901210000",
-      "materialNameHsk": "에틸렌",
-      "export": 1849089.8,
-      "import": 71196.4,
-      "diff": -1777893.4000000001,
-      "exportImport": "export",
-      "balanceIndex": 0.9258481365954722
-    },
-    {
-      "year": 2025,
-      "hsk10": "2901210000",
-      "materialNameHsk": "에틸렌",
-      "export": 2054889.8,
-      "import": 21711.5,
-      "diff": -2033178.3,
-      "exportImport": "export",
-      "balanceIndex": 0.9790893899565603
-    },
-    {
-      "year": 2016,
-      "hsk10": "3907202000",
-      "materialNameHsk": "폴리옥시프로필렌(폴리프로필렌 글리콜)",
-      "export": 330546.6,
-      "import": 24359.6,
-      "diff": -306187,
-      "exportImport": "export",
-      "balanceIndex": 0.8627265457746301
-    },
-    {
-      "year": 2017,
-      "hsk10": "3907202000",
-      "materialNameHsk": "폴리옥시프로필렌(폴리프로필렌 글리콜)",
-      "export": 325838.1,
-      "import": 61253.2,
-      "diff": -264584.89999999997,
-      "exportImport": "export",
-      "balanceIndex": 0.6835206577879688
-    },
-    {
-      "year": 2018,
-      "hsk10": "3907202000",
-      "materialNameHsk": "폴리옥시프로필렌(폴리프로필렌 글리콜)",
-      "export": 328607.4,
-      "import": 61660.8,
-      "diff": -266946.60000000003,
-      "exportImport": "export",
-      "balanceIndex": 0.6840080744472647
-    },
-    {
-      "year": 2019,
-      "hsk10": "3907202000",
-      "materialNameHsk": "폴리옥시프로필렌(폴리프로필렌 글리콜)",
-      "export": 398620.7,
-      "import": 53557.2,
-      "diff": -345063.5,
-      "exportImport": "export",
-      "balanceIndex": 0.7631144733079612
-    },
-    {
-      "year": 2020,
-      "hsk10": "3907202000",
-      "materialNameHsk": "폴리옥시프로필렌(폴리프로필렌 글리콜)",
-      "export": 400884.6,
-      "import": 35161.4,
-      "diff": -365723.19999999995,
-      "exportImport": "export",
-      "balanceIndex": 0.8387261894387288
-    },
-    {
-      "year": 2021,
-      "hsk10": "3907202000",
-      "materialNameHsk": "폴리옥시프로필렌(폴리프로필렌 글리콜)",
-      "export": 424585.7,
-      "import": 29635.6,
-      "diff": -394950.10000000003,
-      "exportImport": "export",
-      "balanceIndex": 0.86951030257718
-    },
-    {
-      "year": 2016,
-      "hsk10": "2901242000",
-      "materialNameHsk": "이소프렌",
-      "export": 13236.8,
-      "import": 1.1,
-      "diff": -13235.699999999999,
-      "exportImport": "export",
-      "balanceIndex": 0.999833810498644
-    },
-    {
-      "year": 2017,
-      "hsk10": "2901242000",
-      "materialNameHsk": "이소프렌",
-      "export": 53752.1,
-      "import": 0.1,
-      "diff": -53752,
-      "exportImport": "export",
-      "balanceIndex": 0.9999962792220598
-    },
-    {
-      "year": 2018,
-      "hsk10": "2901242000",
-      "materialNameHsk": "이소프렌",
-      "export": 57651.2,
-      "import": 2.1,
-      "diff": -57649.1,
-      "exportImport": "export",
-      "balanceIndex": 0.9999271507441899
-    },
-    {
-      "year": 2019,
-      "hsk10": "2901242000",
-      "materialNameHsk": "이소프렌",
-      "export": 58198.3,
-      "import": 0.1,
-      "diff": -58198.200000000004,
-      "exportImport": "export",
-      "balanceIndex": 0.9999965634794085
-    },
-    {
-      "year": 2020,
-      "hsk10": "2901242000",
-      "materialNameHsk": "이소프렌",
-      "export": 57908.7,
-      "import": 0.1,
-      "diff": -57908.6,
-      "exportImport": "export",
-      "balanceIndex": 0.9999965462934822
-    },
-    {
-      "year": 2021,
-      "hsk10": "2901242000",
-      "materialNameHsk": "이소프렌",
-      "export": 68626.1,
-      "import": 0.1,
-      "diff": -68626,
-      "exportImport": "export",
-      "balanceIndex": 0.9999970856611613
-    },
-    {
-      "year": 2022,
-      "hsk10": "2901242000",
-      "materialNameHsk": "이소프렌",
-      "export": 61491,
-      "import": 0.1,
-      "diff": -61490.9,
-      "exportImport": "export",
-      "balanceIndex": 0.9999967474967922
-    },
-    {
-      "year": 2023,
-      "hsk10": "2901242000",
-      "materialNameHsk": "이소프렌",
-      "export": 37508,
-      "import": 0,
-      "diff": -37508,
-      "exportImport": "export",
-      "balanceIndex": 1
-    },
-    {
-      "year": 2024,
-      "hsk10": "2901242000",
-      "materialNameHsk": "이소프렌",
-      "export": 62257.5,
-      "import": 0.1,
-      "diff": -62257.4,
-      "exportImport": "export",
-      "balanceIndex": 0.9999967875407982
-    },
-    {
-      "year": 2025,
-      "hsk10": "2901242000",
-      "materialNameHsk": "이소프렌",
-      "export": 54625.7,
-      "import": 0,
-      "diff": -54625.7,
-      "exportImport": "export",
-      "balanceIndex": 1
-    },
-    {
       "year": 2022,
       "hsk10": "4002600000",
       "materialNameHsk": "이소프렌 고무(IR)",
@@ -18875,6 +19327,106 @@
       "diff": 1282.3,
       "exportImport": "import",
       "balanceIndex": 0.8448968834420504
+    },
+    {
+      "year": 2016,
+      "hsk10": "4002319000",
+      "materialNameHsk": "이소부텐-이소프렌 고무(부틸고무)(IIR)-기타",
+      "export": 406.6,
+      "import": 15706.5,
+      "diff": 15299.9,
+      "exportImport": "import",
+      "balanceIndex": 0.9495317474601411
+    },
+    {
+      "year": 2017,
+      "hsk10": "4002319000",
+      "materialNameHsk": "이소부텐-이소프렌 고무(부틸고무)(IIR)-기타",
+      "export": 423.1,
+      "import": 16181.7,
+      "diff": 15758.6,
+      "exportImport": "import",
+      "balanceIndex": 0.949038832144922
+    },
+    {
+      "year": 2018,
+      "hsk10": "4002319000",
+      "materialNameHsk": "이소부텐-이소프렌 고무(부틸고무)(IIR)-기타",
+      "export": 280.7,
+      "import": 13302.8,
+      "diff": 13022.099999999999,
+      "exportImport": "import",
+      "balanceIndex": 0.9586704457614016
+    },
+    {
+      "year": 2019,
+      "hsk10": "4002319000",
+      "materialNameHsk": "이소부텐-이소프렌 고무(부틸고무)(IIR)-기타",
+      "export": 619.6,
+      "import": 12039.9,
+      "diff": 11420.3,
+      "exportImport": "import",
+      "balanceIndex": 0.9021130376397172
+    },
+    {
+      "year": 2020,
+      "hsk10": "4002319000",
+      "materialNameHsk": "이소부텐-이소프렌 고무(부틸고무)(IIR)-기타",
+      "export": 446.9,
+      "import": 11050.5,
+      "diff": 10603.6,
+      "exportImport": "import",
+      "balanceIndex": 0.9222606850244404
+    },
+    {
+      "year": 2021,
+      "hsk10": "4002319000",
+      "materialNameHsk": "이소부텐-이소프렌 고무(부틸고무)(IIR)-기타",
+      "export": 247.1,
+      "import": 14574.5,
+      "diff": 14327.4,
+      "exportImport": "import",
+      "balanceIndex": 0.9666567711987909
+    },
+    {
+      "year": 2022,
+      "hsk10": "4002319000",
+      "materialNameHsk": "이소부텐-이소프렌 고무(부틸고무)(IIR)-기타",
+      "export": 545.4,
+      "import": 12539.8,
+      "diff": 11994.4,
+      "exportImport": "import",
+      "balanceIndex": 0.9166386451869288
+    },
+    {
+      "year": 2023,
+      "hsk10": "4002319000",
+      "materialNameHsk": "이소부텐-이소프렌 고무(부틸고무)(IIR)-기타",
+      "export": 524.3,
+      "import": 8659.1,
+      "diff": 8134.8,
+      "exportImport": "import",
+      "balanceIndex": 0.8858157109567263
+    },
+    {
+      "year": 2024,
+      "hsk10": "4002319000",
+      "materialNameHsk": "이소부텐-이소프렌 고무(부틸고무)(IIR)-기타",
+      "export": 280.9,
+      "import": 9073.6,
+      "diff": 8792.7,
+      "exportImport": "import",
+      "balanceIndex": 0.9399433427762041
+    },
+    {
+      "year": 2025,
+      "hsk10": "4002319000",
+      "materialNameHsk": "이소부텐-이소프렌 고무(부틸고무)(IIR)-기타",
+      "export": 178.5,
+      "import": 8239.4,
+      "diff": 8060.9,
+      "exportImport": "import",
+      "balanceIndex": 0.9575903728958529
     }
   ],
   "shortlist": [
@@ -18998,12 +19550,12 @@
       "materialType": "Intermediate",
       "licensorList": "Lummus, UOP",
       "licensable": "Y",
-      "hasDomesticSupplier": "N",
-      "hasUlsanSupplier": "N",
-      "domesticSupplier": "X",
-      "ulsanSupplier": "X",
-      "domesticCapacity": "X",
-      "domesticSupplierDisplay": "X",
+      "hasDomesticSupplier": "Y",
+      "hasUlsanSupplier": "Y",
+      "domesticSupplier": "SK picglobal, 롯데케미칼, 여천NCC, 한화토탈에너지스",
+      "ulsanSupplier": "SK picglobal",
+      "domesticCapacity": "롯데케미칼: 233 KTA; 롯데케미칼: 440 KTA; 여천NCC: 370 KTA; 한화토탈에너지스: 440 KTA; 한화토탈에너지스: 715 KTA; SK picglobal: 438 KTA",
+      "domesticSupplierDisplay": "SK picglobal, 롯데케미칼, 여천NCC, 한화토탈에너지스 (롯데케미칼: 233 KTA; 롯데케미칼: 440 KTA; 여천NCC: 370 KTA; 한화토탈에너지스: 440 KTA; 한화토탈에너지스: 715 KTA; SK picglobal: 438 KTA)",
       "hsk10": "2902600000",
       "materialNameHsk": "에틸벤젠",
       "latestYear": 2025,
@@ -19502,12 +20054,12 @@
       "materialType": "Intermediate",
       "licensorList": "KBR",
       "licensable": "Y",
-      "hasDomesticSupplier": "N",
+      "hasDomesticSupplier": "Y",
       "hasUlsanSupplier": "N",
-      "domesticSupplier": "X",
+      "domesticSupplier": "금호미쓰이화학, 한국바스프",
       "ulsanSupplier": "X",
-      "domesticCapacity": "X",
-      "domesticSupplierDisplay": "X",
+      "domesticCapacity": "금호미쓰이화학: 320 KTA; 한국바스프: 155 KTA",
+      "domesticSupplierDisplay": "금호미쓰이화학, 한국바스프 (금호미쓰이화학: 320 KTA; 한국바스프: 155 KTA)",
       "hsk10": "2921411000",
       "materialNameHsk": "아닐린",
       "latestYear": 2025,
@@ -20223,34 +20775,6 @@
       "priorityRank": 5
     },
     {
-      "materialId": "M083",
-      "materialName": "PVA",
-      "categoryDisplay": "Ethylene",
-      "categoryOrder": 1,
-      "materialType": "Polymer",
-      "licensorList": "",
-      "licensable": "N",
-      "hasDomesticSupplier": "N",
-      "hasUlsanSupplier": "N",
-      "domesticSupplier": "X",
-      "ulsanSupplier": "X",
-      "domesticCapacity": "X",
-      "domesticSupplierDisplay": "X",
-      "hsk10": "",
-      "materialNameHsk": "",
-      "latestYear": null,
-      "exportLatest": null,
-      "importLatest": null,
-      "netLatest": null,
-      "tradeStatus": "No trade data",
-      "tradeRegime": "No trade data",
-      "turnFlag": "N",
-      "tradeKey": 4,
-      "axensLummusFlag": "N",
-      "priority": "E",
-      "priorityRank": 5
-    },
-    {
       "materialId": "M007",
       "materialName": "PVC",
       "categoryDisplay": "Ethylene",
@@ -20265,6 +20789,34 @@
       "domesticCapacity": "한화솔루션: 480 KTA; 한화솔루션: 330 KTA; LG화학: 240 KTA; LG화학: 450 KTA",
       "domesticSupplierDisplay": "LG화학, 한화솔루션 (한화솔루션: 480 KTA; 한화솔루션: 330 KTA; LG화학: 240 KTA; LG화학: 450 KTA)",
       "hsk10": "3904100000",
+      "materialNameHsk": "",
+      "latestYear": null,
+      "exportLatest": null,
+      "importLatest": null,
+      "netLatest": null,
+      "tradeStatus": "No trade data",
+      "tradeRegime": "No trade data",
+      "turnFlag": "N",
+      "tradeKey": 4,
+      "axensLummusFlag": "N",
+      "priority": "E",
+      "priorityRank": 5
+    },
+    {
+      "materialId": "M083",
+      "materialName": "PVOH",
+      "categoryDisplay": "Ethylene",
+      "categoryOrder": 1,
+      "materialType": "Polymer",
+      "licensorList": "",
+      "licensable": "N",
+      "hasDomesticSupplier": "N",
+      "hasUlsanSupplier": "N",
+      "domesticSupplier": "X",
+      "ulsanSupplier": "X",
+      "domesticCapacity": "X",
+      "domesticSupplierDisplay": "X",
+      "hsk10": "3905300000",
       "materialNameHsk": "",
       "latestYear": null,
       "exportLatest": null,
@@ -20370,12 +20922,12 @@
       "materialType": "Intermediate",
       "licensorList": "",
       "licensable": "N",
-      "hasDomesticSupplier": "N",
+      "hasDomesticSupplier": "Y",
       "hasUlsanSupplier": "N",
-      "domesticSupplier": "X",
+      "domesticSupplier": "롯데정밀화학, 한화솔루션",
       "ulsanSupplier": "X",
-      "domesticCapacity": "X",
-      "domesticSupplierDisplay": "X",
+      "domesticCapacity": "롯데정밀화학: 132 KTA; 한화솔루션: 25 KTA",
+      "domesticSupplierDisplay": "롯데정밀화학, 한화솔루션 (롯데정밀화학: 132 KTA; 한화솔루션: 25 KTA)",
       "hsk10": "2910300000",
       "materialNameHsk": "1-클로로-2,3-에폭시프로판(에피클로로히드린)",
       "latestYear": 2025,
@@ -20392,7 +20944,7 @@
     },
     {
       "materialId": "M107",
-      "materialName": "i-Butyraldehyde",
+      "materialName": "i-butyraldehyde",
       "categoryDisplay": "Propylene",
       "categoryOrder": 2,
       "materialType": "Intermediate",
@@ -20936,7 +21488,7 @@
       "ulsanSupplier": "X",
       "domesticCapacity": "X",
       "domesticSupplierDisplay": "X",
-      "hsk10": "",
+      "hsk10": "4002319000",
       "materialNameHsk": "",
       "latestYear": null,
       "exportLatest": null,
@@ -21098,12 +21650,12 @@
       "materialType": "Polymer",
       "licensorList": "",
       "licensable": "N",
-      "hasDomesticSupplier": "N",
+      "hasDomesticSupplier": "Y",
       "hasUlsanSupplier": "N",
-      "domesticSupplier": "X",
+      "domesticSupplier": "DL케미칼",
       "ulsanSupplier": "X",
-      "domesticCapacity": "X",
-      "domesticSupplierDisplay": "X",
+      "domesticCapacity": "DL케미칼: 220 KTA",
+      "domesticSupplierDisplay": "DL케미칼 (DL케미칼: 220 KTA)",
       "hsk10": "3902200000",
       "materialNameHsk": "폴리이소부틸렌",
       "latestYear": 2025,
@@ -21294,12 +21846,12 @@
       "materialType": "Base chemical",
       "licensorList": "",
       "licensable": "N",
-      "hasDomesticSupplier": "N",
+      "hasDomesticSupplier": "Y",
       "hasUlsanSupplier": "N",
-      "domesticSupplier": "X",
+      "domesticSupplier": "롯데케미칼, 여천NCC",
       "ulsanSupplier": "X",
-      "domesticCapacity": "X",
-      "domesticSupplierDisplay": "X",
+      "domesticCapacity": "롯데케미칼: 32 KTA; 여천NCC: 38 KTA",
+      "domesticSupplierDisplay": "롯데케미칼, 여천NCC (롯데케미칼: 32 KTA; 여천NCC: 38 KTA)",
       "hsk10": "2901242000",
       "materialNameHsk": "",
       "latestYear": null,
@@ -21506,6 +22058,34 @@
       "tradeRegime": "Exporter -> importer",
       "turnFlag": "Y",
       "tradeKey": 1,
+      "axensLummusFlag": "N",
+      "priority": "E",
+      "priorityRank": 5
+    },
+    {
+      "materialId": "M114",
+      "materialName": "Chlorobenzene",
+      "categoryDisplay": "Aromatics",
+      "categoryOrder": 5,
+      "materialType": "Intermediate",
+      "licensorList": "",
+      "licensable": "N",
+      "hasDomesticSupplier": "Y",
+      "hasUlsanSupplier": "N",
+      "domesticSupplier": "도레이첨단소재",
+      "ulsanSupplier": "X",
+      "domesticCapacity": "도레이첨단소재: 14 KTA",
+      "domesticSupplierDisplay": "도레이첨단소재 (도레이첨단소재: 14 KTA)",
+      "hsk10": "2903911000",
+      "materialNameHsk": "",
+      "latestYear": null,
+      "exportLatest": null,
+      "importLatest": null,
+      "netLatest": null,
+      "tradeStatus": "No trade data",
+      "tradeRegime": "No trade data",
+      "turnFlag": "N",
+      "tradeKey": 4,
       "axensLummusFlag": "N",
       "priority": "E",
       "priorityRank": 5
@@ -21742,12 +22322,12 @@
       "materialType": "Polymer",
       "licensorList": "",
       "licensable": "N",
-      "hasDomesticSupplier": "N",
-      "hasUlsanSupplier": "N",
-      "domesticSupplier": "X",
-      "ulsanSupplier": "X",
-      "domesticCapacity": "X",
-      "domesticSupplierDisplay": "X",
+      "hasDomesticSupplier": "Y",
+      "hasUlsanSupplier": "Y",
+      "domesticSupplier": "SK지오센트릭, 롯데케미칼, 티케이케미칼",
+      "ulsanSupplier": "롯데케미칼",
+      "domesticCapacity": "롯데케미칼: 450 KTA; 티케이케미칼: 280 KTA; SK지오센트릭: 20 KTA",
+      "domesticSupplierDisplay": "SK지오센트릭, 롯데케미칼, 티케이케미칼 (롯데케미칼: 450 KTA; 티케이케미칼: 280 KTA; SK지오센트릭: 20 KTA)",
       "hsk10": "",
       "materialNameHsk": "",
       "latestYear": null,
@@ -22274,7 +22854,7 @@
       "subtitle": "Propylene / Functional Material",
       "materialId": "M029",
       "href": "/materials/M029",
-      "haystack": "M029 Polyols Propylene Functional Material Polyol  "
+      "haystack": "M029 Polyols Propylene Functional Material Polyol  Polyether Polyols"
     },
     {
       "type": "Material",
@@ -22439,10 +23019,10 @@
     {
       "type": "Material",
       "title": "Butyl rubber",
-      "subtitle": "C4 / Polymer",
+      "subtitle": "C4 / Polymer / 4002319000",
       "materialId": "M050",
       "href": "/materials/M050",
-      "haystack": "M050 Butyl rubber C4 Polymer Synthetic Rubber  IIR(Isobutylene Isoprene Rubber)"
+      "haystack": "M050 Butyl rubber C4 Polymer Synthetic Rubber 4002319000 IIR(Isobutylene Isoprene Rubber)"
     },
     {
       "type": "Material",
@@ -22702,11 +23282,11 @@
     },
     {
       "type": "Material",
-      "title": "PVA",
-      "subtitle": "Ethylene / Polymer",
+      "title": "PVOH",
+      "subtitle": "Ethylene / Polymer / 3905300000",
       "materialId": "M083",
       "href": "/materials/M083",
-      "haystack": "M083 PVA Ethylene Polymer Functional Polymer  Polyvinyl alcohol"
+      "haystack": "M083 PVOH Ethylene Polymer Functional Polymer 3905300000 Polyvinyl alcohol"
     },
     {
       "type": "Material",
@@ -22894,11 +23474,11 @@
     },
     {
       "type": "Material",
-      "title": "i-Butyraldehyde",
+      "title": "i-butyraldehyde",
       "subtitle": "Propylene / Intermediate",
       "materialId": "M107",
       "href": "/materials/M107",
-      "haystack": "M107 i-Butyraldehyde Propylene Intermediate Aldehyde  "
+      "haystack": "M107 i-butyraldehyde Propylene Intermediate Aldehyde  "
     },
     {
       "type": "Material",
@@ -22947,6 +23527,14 @@
       "materialId": "M113",
       "href": "/materials/M113",
       "haystack": "M113 C5 Resin C5 Functional Material Hydrocarbon Resin  "
+    },
+    {
+      "type": "Material",
+      "title": "Chlorobenzene",
+      "subtitle": "Aromatics / Intermediate / 2903911000",
+      "materialId": "M114",
+      "href": "/materials/M114",
+      "haystack": "M114 Chlorobenzene Benzene Intermediate Chlorinated Intermediate 2903911000 MCB(Mono Chlorobenzene)"
     },
     {
       "type": "Route",
@@ -23447,10 +24035,10 @@
     },
     {
       "type": "Route",
-      "title": "VAM to PVA",
+      "title": "VAM to PVOH",
       "subtitle": "R072 / Polymerization/Hydrolysis",
       "href": "/search?route=R072",
-      "haystack": "R072 VAM to PVA Polymerization/Hydrolysis "
+      "haystack": "R072 VAM to PVOH Polymerization/Hydrolysis "
     },
     {
       "type": "Route",
@@ -23661,6 +24249,13 @@
       "subtitle": "R102 / Polymerization",
       "href": "/search?route=R102",
       "haystack": "R102 Piperylene to C5 resin Polymerization "
+    },
+    {
+      "type": "Route",
+      "title": "Benzene to Chlorobenzene",
+      "subtitle": "R103 / Chlorination",
+      "href": "/search?route=R103",
+      "haystack": "R103 Benzene to Chlorobenzene Chlorination "
     },
     {
       "type": "Supplier",
@@ -24046,6 +24641,27 @@
       "subtitle": "S055",
       "href": "/search?supplier=SH%EC%97%90%EB%84%88%EC%A7%80%ED%99%94%ED%95%99",
       "haystack": "S055 SH에너지화학 "
+    },
+    {
+      "type": "Supplier",
+      "title": "롯데정밀화학",
+      "subtitle": "S056",
+      "href": "/search?supplier=%EB%A1%AF%EB%8D%B0%EC%A0%95%EB%B0%80%ED%99%94%ED%95%99",
+      "haystack": "S056 롯데정밀화학 "
+    },
+    {
+      "type": "Supplier",
+      "title": "도레이첨단소재",
+      "subtitle": "S057",
+      "href": "/search?supplier=%EB%8F%84%EB%A0%88%EC%9D%B4%EC%B2%A8%EB%8B%A8%EC%86%8C%EC%9E%AC",
+      "haystack": "S057 도레이첨단소재 "
+    },
+    {
+      "type": "Supplier",
+      "title": "티케이케미칼",
+      "subtitle": "S058",
+      "href": "/search?supplier=%ED%8B%B0%EC%BC%80%EC%9D%B4%EC%BC%80%EB%AF%B8%EC%B9%BC",
+      "haystack": "S058 티케이케미칼 "
     },
     {
       "type": "Licensor",

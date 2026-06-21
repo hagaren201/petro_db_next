@@ -5,8 +5,8 @@ Modern Vercel-ready rebuild of the original Streamlit petrochemical downstream d
 ## What Changed
 
 - Replaced Streamlit screens with a Next.js App Router web app.
-- Preserved the Excel-driven data model from `db.xlsx` and `trade.xlsx`.
-- Added a build-time converter that writes API-readable JSON to `data/generated/petro-data.json`.
+- Preserved the Excel-driven data model from `db.xlsx` and `db_screen.xlsx`.
+- Added a deploy DB converter that writes API-readable JSON to `public/data/deploy_db.json`.
 - Preserved the core logic from the original app:
   - material master and route master
   - route input/output links
@@ -36,14 +36,20 @@ components/
 data/
   source/
     db.xlsx
+    db_screen.xlsx
     trade.xlsx
+    deploy_db_0616.xlsx       Fallback screen workbook if db_screen.xlsx is absent
   generated/
     petro-data.json
+public/
+  data/
+    deploy_db.json
 lib/
   data.ts
   types.ts
 scripts/
   build-data.mjs
+  build-deploy-db.ts
 petro_db-main/                Original uploaded Streamlit app
 ```
 
@@ -55,10 +61,10 @@ Install dependencies:
 npm install
 ```
 
-Generate JSON from the Excel workbooks:
+Generate the deploy DB JSON from the working Excel workbooks:
 
 ```bash
-npm run data:build
+npm run deploy-db:build
 ```
 
 Start the app:
@@ -74,24 +80,26 @@ Open `http://localhost:3000`.
 1. Push this repository to GitHub.
 2. Import the repository in Vercel.
 3. Use the default Next.js settings.
-4. Vercel will run `npm run build`, which automatically runs `npm run data:build` first.
+4. Vercel will run `npm run build`.
 
-The Excel files are read only at build time from `data/source`. The deployed app serves the generated JSON-backed pages without Streamlit or Python.
+Vercel does not parse the source Excel files during deployment. The deployable app uses committed JSON artifacts, including `public/data/deploy_db.json`, without Streamlit or Python.
 
 ## Updating Data
 
 Replace:
 
 - `data/source/db.xlsx`
-- `data/source/trade.xlsx`
+- `data/source/db_screen.xlsx` if present, or `data/source/deploy_db_0616.xlsx` as the current fallback screen workbook
 
 Then run:
 
 ```bash
-npm run data:build
+npm run deploy-db:build
 ```
 
-Commit both the Excel changes and the regenerated `data/generated/petro-data.json` if you want deterministic previews.
+Commit both the Excel changes and the regenerated `public/data/deploy_db.json` if you want deterministic previews.
+
+`npm run data:build` remains available as the legacy converter for `data/generated/petro-data.json`, but it is no longer wired into `npm run build`.
 
 ## Notes On Preserved Logic
 

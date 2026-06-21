@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { notFound } from "next/navigation"
+import { Suspense } from "react"
 import { ArrowLeft } from "lucide-react"
 import { buildStreamGraph, getStream } from "@/lib/data"
 import { buildStreamTree } from "@/lib/tree"
@@ -26,7 +27,9 @@ export default async function StreamPage({ params }: { params: Promise<{ stream:
       </section>
 
       <section className="section">
-        <StreamViews graph={graph} treeGroups={treeGroups} />
+        <Suspense fallback={<div className="muted-copy">Loading map...</div>}>
+          <StreamViews graph={graph} treeGroups={treeGroups} />
+        </Suspense>
       </section>
     </main>
   )

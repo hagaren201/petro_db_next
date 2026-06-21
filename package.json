@@ -4,9 +4,8 @@
   "private": true,
   "scripts": {
     "data:build": "node scripts/build-data.mjs",
-    "predev": "npm run data:build",
+    "deploy-db:build": "tsx scripts/build-deploy-db.ts",
     "dev": "next dev",
-    "prebuild": "npm run data:build",
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
@@ -23,6 +22,7 @@
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
+    "tsx": "latest",
     "typescript": "latest"
   }
 }

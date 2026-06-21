@@ -1,13 +1,22 @@
 "use client"
 
 import { useState } from "react"
+import { useSearchParams } from "next/navigation"
 import type { StreamGraph } from "@/lib/data"
 import type { StreamTreeGroup } from "@/lib/tree"
 import { RadialStreamMap } from "./RadialStreamMap"
 import { StreamMap } from "./StreamMap"
 import { StreamTree } from "./StreamTree"
 
-export function StreamViews({ graph, treeGroups }: { graph: StreamGraph; treeGroups: StreamTreeGroup[] }) {
+export function StreamViews({
+  graph,
+  treeGroups
+}: {
+  graph: StreamGraph
+  treeGroups: StreamTreeGroup[]
+}) {
+  const searchParams = useSearchParams()
+  const groupId = searchParams.get("group") ?? undefined
   const [view, setView] = useState<"map" | "tree" | "lane">("map")
   const roots = graph.nodes.filter((node) => node.depth === 0)
 
@@ -24,7 +33,7 @@ export function StreamViews({ graph, treeGroups }: { graph: StreamGraph; treeGro
           Lane
         </button>
       </div>
-      {view === "map" ? <RadialStreamMap graph={graph} treeGroups={treeGroups} /> : null}
+      {view === "map" ? <RadialStreamMap graph={graph} initialGroupId={groupId} /> : null}
       {view === "tree" ? <StreamTree groups={treeGroups} roots={roots} /> : null}
       {view === "lane" ? <StreamMap graph={graph} /> : null}
     </div>
