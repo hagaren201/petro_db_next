@@ -30,7 +30,6 @@ export function StrategicExposureTable({ exposureRows, industryScores = {} }: St
         <thead>
           <tr>
             <th>Application</th>
-            <th>Raw Application</th>
             <th>End-use Industry</th>
             <th>Industry Score</th>
           </tr>
@@ -74,14 +73,16 @@ function ExposureTableRow({
       <td>
         <div className="exposure-app-cell">
           <IconBadge id={row.appId} label={row.application} showLabel={false} size="md" type="application" />
-          <strong>{row.application || "Unknown"}</strong>
+          <span>
+            <strong>{row.application || "Unknown"}</strong>
+            {row.detail ? <small className="exposure-raw-text">{row.detail}</small> : null}
+          </span>
         </div>
       </td>
       <td>
-        <small className="exposure-raw-text">{row.detail || "No raw application detail"}</small>
-      </td>
-      <td>
-        <IconBadge id={row.endUseId} label={row.endUseIndustry} size="sm" type="endUse" />
+        <span title={row.endUseIndustry || undefined}>
+          <IconBadge id={row.endUseId} label={row.endUseIndustry} preferShortLabel size="sm" type="endUse" />
+        </span>
       </td>
       <td>
         {score === null ? (
