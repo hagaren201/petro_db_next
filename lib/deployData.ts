@@ -31,6 +31,10 @@ export type DeployChainMaster = {
   group_name: string | null
   stream: string | null
   related_streams: string[]
+  starting_material: string | null
+  starting_materials: string[]
+  root_material: string | null
+  root_materials: string[]
   group_score: number | null
   is_default_visible: boolean | null
   display_order: number | null

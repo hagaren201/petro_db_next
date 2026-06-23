@@ -92,6 +92,23 @@ function firstValue(row: Row, keys: string[]) {
   return undefined
 }
 
+function splitMultiValue(value: CellValue | undefined) {
+  const raw = text(value)
+  if (!raw) return []
+  return raw
+    .split(";")
+    .map((item) => item.trim())
+    .filter(Boolean)
+}
+
+function addMultiValues(target: Set<string>, value: CellValue | undefined) {
+  for (const item of splitMultiValue(value)) target.add(item)
+}
+
+function formatMultiValues(values: string[]) {
+  return values.length ? values.join("; ") : null
+}
+
 function snakeCase(value: string) {
   return value
     .trim()
@@ -128,8 +145,33 @@ function inferStreamFromGroupName(groupId: string | null, groupName: string | nu
   return null
 }
 
+function inferStartingMaterialFromGroupName(groupId: string | null, groupName: string | null) {
+  const value = `${groupId ?? ""} ${groupName ?? ""}`.toLowerCase()
+  if (/(pe chain|eo|pet|pvc|vam|ethanol|ethanolamine|lao|pao|ec\/dmc)/.test(value)) return "Ethylene"
+  if (/(pp chain|po\/pg|an chain|aa-sap|acrylic|oxo|ipa|pu chain|upr platform)/.test(value)) return "Propylene"
+  if (/(bd rubber|c4 elastomer)/.test(value)) return "Butadiene"
+  if (/(isobutylene|fuel additive|mtbe|pib|butyl rubber)/.test(value)) return "Isobutylene"
+  if (/(1-butene|lao)/.test(value)) return "1-Butene"
+  if (/(isoprene)/.test(value)) return "Isoprene"
+  if (/(piperylene)/.test(value)) return "Piperylene"
+  if (/(dcpd|coc)/.test(value)) return "DCPD"
+  if (/(toluene|tdi|benzoic)/.test(value)) return "Toluene"
+  if (/(xylene|px|pta|pbt|pet resin|pet film|ox-pa|mx-pia)/.test(value)) return "Xylene"
+  if (/(benzene|ps chain|styrene|phenol|acetone|epoxy|pc chain|aniline|mdi|lab|cyclohexane|caprolactam|nylon\/pa)/.test(value)) return "Benzene"
+  if (/(methanol|c1|formaldehyde|acetic acid|mma|pmma)/.test(value)) return "Methanol"
+  return null
+}
+
 function inferRepresentativeStream(group: { group_id: string | null; group_name: string | null; material_groups: string[]; base_material_groups: string[] }) {
   return inferStreamFromGroupName(group.group_id, group.group_name) ?? mostFrequent(group.base_material_groups) ?? mostFrequent(group.material_groups)
+}
+
+function inferStartingMaterial(group: { group_id: string | null; group_name: string | null; base_material_names: string[] }) {
+  return inferStartingMaterialFromGroupName(group.group_id, group.group_name) ?? mostFrequent(group.base_material_names)
+}
+
+function warnBuild(message: string) {
+  console.warn(`[build-db] ${message}`)
 }
 
 function detailSections(workbook: XLSX.WorkBook, sheetName: string | null) {
@@ -180,6 +222,13 @@ const materialByName = new Map(
     .map((row) => [text(row.material_name)?.toLowerCase(), text(row.material_id)] as const)
     .filter(([name, id]) => name && id)
 )
+const materialNameSet = new Set(materialRows.map((row) => text(row.material_name)).filter(Boolean) as string[])
+const baseChemicalNameSet = new Set(
+  materialRows
+    .filter((row) => text(row.material_type) === "Base chemical")
+    .map((row) => text(row.material_name))
+    .filter(Boolean) as string[]
+)
 
 const material_card = materialRows.map((row) => {
   const materialId = text(row.material_id)
@@ -225,6 +274,9 @@ const chainGroups = new Map<
     material_ids: Set<string>
     material_groups: string[]
     base_material_groups: string[]
+    base_material_names: string[]
+    starting_materials: Set<string>
+    root_materials: Set<string>
     end_use_att_values: number[]
   }
 >()
@@ -243,19 +295,28 @@ for (const row of groupRows) {
       material_ids: new Set<string>(),
       material_groups: [],
       base_material_groups: [],
+      base_material_names: [],
+      starting_materials: new Set<string>(),
+      root_materials: new Set<string>(),
       end_use_att_values: []
     }
   existing.group_name ??= groupName
   existing.group_score ??= num(row.group_score)
   existing.is_default_visible ??= boolFlag(row.is_default_visible)
   existing.display_order ??= num(row.display_order)
+  addMultiValues(existing.starting_materials, row.starting_material)
+  addMultiValues(existing.root_materials, row.root_material)
   const materialId = text(row.material_id)
   if (materialId) {
     existing.material_ids.add(materialId)
     const material = materialById.get(materialId)
     const materialGroup = text(material?.material_group)
+    const materialName = text(material?.material_name)
     if (materialGroup) existing.material_groups.push(materialGroup)
-    if (materialGroup && text(material?.material_type) === "Base chemical") existing.base_material_groups.push(materialGroup)
+    if (text(material?.material_type) === "Base chemical") {
+      if (materialGroup) existing.base_material_groups.push(materialGroup)
+      if (materialName) existing.base_material_names.push(materialName)
+    }
   }
   const endUseAtt = num(row.end_use_att)
   if (endUseAtt !== null) existing.end_use_att_values.push(endUseAtt)
@@ -265,11 +326,38 @@ for (const row of groupRows) {
 const chain_master = Array.from(chainGroups.values()).map((group) => {
   const totalEndUseAtt = group.end_use_att_values.reduce((sum, value) => sum + value, 0)
   const relatedStreams = Array.from(new Set(group.material_groups)).sort((a, b) => a.localeCompare(b))
+  let startingMaterials = Array.from(group.starting_materials)
+  if (!startingMaterials.length) {
+    const inferred = inferStartingMaterial(group)
+    if (inferred) {
+      startingMaterials = [inferred]
+      warnBuild(`starting_material inferred by fallback: ${group.group_id} ${group.group_name} -> ${inferred}`)
+    }
+  }
+  let rootMaterials = Array.from(group.root_materials)
+  if (!rootMaterials.length && startingMaterials.length) {
+    rootMaterials = startingMaterials
+    warnBuild(`root_material fallback to starting_material: ${group.group_id} ${group.group_name} -> ${rootMaterials.join("; ")}`)
+  }
+  for (const startingMaterial of startingMaterials) {
+    if (!materialNameSet.has(startingMaterial)) {
+      warnBuild(`starting_material not found as material: ${startingMaterial} in ${group.group_id} ${group.group_name}`)
+    }
+  }
+  for (const rootMaterial of rootMaterials) {
+    if (!baseChemicalNameSet.has(rootMaterial)) {
+      warnBuild(`root_material not found as base chemical: ${rootMaterial} in ${group.group_id} ${group.group_name}`)
+    }
+  }
   return {
     group_id: group.group_id,
     group_name: group.group_name,
     stream: inferRepresentativeStream(group),
     related_streams: relatedStreams,
+    starting_material: formatMultiValues(startingMaterials),
+    starting_materials: startingMaterials,
+    root_material: formatMultiValues(rootMaterials),
+    root_materials: rootMaterials,
     group_score: group.group_score,
     is_default_visible: group.is_default_visible,
     display_order: group.display_order,
