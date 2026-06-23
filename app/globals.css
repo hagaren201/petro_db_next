@@ -1185,6 +1185,7 @@ th {
 .exposure-table td {
   padding: 8px 10px;
   border-bottom: 1px solid #edf1f5;
+  vertical-align: middle;
   white-space: normal;
 }
 
@@ -1212,7 +1213,7 @@ th {
 
 .exposure-app-cell {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 8px;
 }
 
@@ -1236,10 +1237,9 @@ th {
 }
 
 .score-bar-cell {
-  display: grid;
-  grid-template-columns: minmax(96px, 1fr) 44px;
-  gap: 8px;
+  display: flex;
   align-items: center;
+  gap: 12px;
 }
 
 .score-bar-cell strong {
@@ -1249,6 +1249,8 @@ th {
 }
 
 .score-bar-track {
+  flex: 1 1 112px;
+  min-width: 96px;
   height: 7px;
   overflow: hidden;
   border-radius: 999px;
@@ -1345,6 +1347,13 @@ th {
   padding: 7px 8px;
   border-bottom: 1px solid #edf1f5;
   background: #fff;
+}
+
+.end-use-icon-card > span {
+  display: grid;
+  align-content: center;
+  gap: 1px;
+  min-width: 0;
 }
 
 .end-use-icon-card:last-child {
@@ -1450,12 +1459,14 @@ th {
   grid-template-columns: minmax(110px, 0.9fr) minmax(110px, 1.1fr) 76px;
   gap: 8px;
   align-items: center;
+  min-height: 28px;
   color: #435063;
   font-size: 12px;
 }
 
 .supplier-bar-row > span:first-child {
   display: grid;
+  align-content: center;
   gap: 1px;
   min-width: 0;
 }
@@ -1488,6 +1499,7 @@ th {
 }
 
 .supplier-bar-row strong {
+  align-self: center;
   color: #243041;
   text-align: right;
   white-space: nowrap;
@@ -1520,6 +1532,7 @@ th {
 
 .supplier-mini-card {
   display: grid;
+  align-content: center;
   gap: 3px;
   padding: 10px;
   border: 1px solid #e7edf3;
