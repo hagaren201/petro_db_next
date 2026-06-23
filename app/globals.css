@@ -1451,27 +1451,39 @@ th {
 
 .supplier-bars {
   display: grid;
-  gap: 8px;
+  gap: 5px;
 }
 
 .supplier-bar-row {
   display: grid;
-  grid-template-columns: minmax(110px, 0.9fr) minmax(110px, 1.1fr) 76px;
-  gap: 8px;
+  grid-template-columns: 48px minmax(120px, 1fr) minmax(180px, 260px) 72px;
+  column-gap: 12px;
   align-items: center;
-  min-height: 28px;
+  min-height: 40px;
   color: #435063;
   font-size: 12px;
 }
 
-.supplier-bar-row > span:first-child {
-  display: grid;
-  align-content: center;
-  gap: 1px;
+.supplier-location-cell,
+.supplier-name-cell,
+.supplier-bar-cell,
+.supplier-capacity-cell {
+  display: flex;
+  align-items: center;
   min-width: 0;
+  height: 100%;
 }
 
-.supplier-bar-row > span:first-child strong {
+.supplier-location-cell {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.supplier-name-cell {
+  justify-content: flex-end;
+}
+
+.supplier-name-cell strong {
   overflow: hidden;
   color: #243041;
   font-size: 12px;
@@ -1479,13 +1491,14 @@ th {
   white-space: nowrap;
 }
 
-.supplier-bar-row > span:first-child small {
-  color: var(--muted);
-  font-size: 11px;
+.supplier-bar-cell {
+  justify-content: stretch;
 }
 
 .supplier-bar-track {
-  height: 9px;
+  display: block;
+  width: 100%;
+  height: 8px;
   overflow: hidden;
   border-radius: 999px;
   background: #edf1f5;
@@ -1493,14 +1506,15 @@ th {
 
 .supplier-bar {
   display: block;
-  height: 100%;
+  height: 8px;
   border-radius: 999px;
   background: var(--petro-teal);
 }
 
-.supplier-bar-row strong {
-  align-self: center;
+.supplier-capacity-cell {
+  justify-content: flex-end;
   color: #243041;
+  font-size: 12px;
   text-align: right;
   white-space: nowrap;
 }

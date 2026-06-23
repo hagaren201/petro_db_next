@@ -242,14 +242,16 @@ function SupplierBarRow({ maxCapacity, supplier }: { maxCapacity: number; suppli
   const capacity = supplier.estimated_capacity ?? 0
   return (
     <div className="supplier-bar-row">
-      <span>
+      <span className="supplier-location-cell">{supplier.location || "-"}</span>
+      <span className="supplier-name-cell">
         <strong>{supplier.supplier_name || "Unknown"}</strong>
-        <small>{supplier.location || "-"}</small>
       </span>
-      <span className="supplier-bar-track">
-        <span className="supplier-bar" style={{ width: `${(capacity / maxCapacity) * 100}%` }} />
+      <span className="supplier-bar-cell">
+        <span className="supplier-bar-track">
+          <span className="supplier-bar" style={{ width: `${(capacity / maxCapacity) * 100}%` }} />
+        </span>
       </span>
-      <strong>{formatCapacityKta(capacity, supplier.capacity_unit)}</strong>
+      <strong className="supplier-capacity-cell">{formatCapacityKta(capacity, supplier.capacity_unit)}</strong>
     </div>
   )
 }
