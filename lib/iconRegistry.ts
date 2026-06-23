@@ -91,7 +91,7 @@ export const endUseIconRegistry: IconRegistryEntry[] = [
   {
     end_use_id: "E02",
     label: "Consumer Products & Packaging",
-    shortLabel: "Packaging",
+    shortLabel: "Consumer & Packaging",
     icon: ShoppingBag,
     foreground: orange,
     background: "#FFF3E8",
@@ -100,7 +100,7 @@ export const endUseIconRegistry: IconRegistryEntry[] = [
   {
     end_use_id: "E03",
     label: "Automotive & Future Mobility",
-    shortLabel: "Mobility",
+    shortLabel: "Automotive & Mobility",
     icon: Car,
     foreground: "#355C7D",
     background: "#EEF4FA",
@@ -109,7 +109,7 @@ export const endUseIconRegistry: IconRegistryEntry[] = [
   {
     end_use_id: "E04",
     label: "Energy, Power & Utilities",
-    shortLabel: "Energy",
+    shortLabel: "Energy & Utilities",
     icon: Zap,
     foreground: orange,
     background: "#FFF7E5",
@@ -136,7 +136,7 @@ export const endUseIconRegistry: IconRegistryEntry[] = [
   {
     end_use_id: "E07",
     label: "Industrial Goods & Advanced Manufacturing",
-    shortLabel: "Industrial",
+    shortLabel: "Industrial & Manufacturing",
     icon: Factory,
     foreground: teal,
     background: "#E6F6F6",
@@ -145,7 +145,7 @@ export const endUseIconRegistry: IconRegistryEntry[] = [
   {
     end_use_id: "E08",
     label: "Electronics, Semiconductors & Digital Infrastructure",
-    shortLabel: "Electronics",
+    shortLabel: "Electronics & Digital",
     icon: Cpu,
     foreground: navy,
     background: "#EEF2FF",
@@ -228,4 +228,3 @@ function findRegistryEntry(entries: IconRegistryEntry[], id: string | null | und
 function normalizeLabel(value: string | null | undefined) {
   return value?.trim().toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, " ").replace(/\s+/g, " ").trim() ?? ""
 }
-

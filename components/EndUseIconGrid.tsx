@@ -16,7 +16,7 @@ export function EndUseIconGrid({ endUses }: { endUses: EndUseIconGridItem[] }) {
     <div className="end-use-icon-grid">
       {deduped.map((endUse) => (
         <div className="end-use-icon-card" key={`${endUse.endUseId ?? "unknown"}-${endUse.label ?? "unknown"}`}>
-          <IconBadge id={endUse.endUseId} label={endUse.label} showLabel={false} size="lg" type="endUse" />
+          <IconBadge id={endUse.endUseId} label={endUse.label} showLabel={false} size="md" type="endUse" />
           <span>
             <strong>{endUse.label || "Unknown"}</strong>
             {endUse.endUseId ? <small>{endUse.endUseId}</small> : null}
