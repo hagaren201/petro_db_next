@@ -1002,7 +1002,20 @@ th {
 }
 
 .material-detail-layout {
+  align-items: start;
   gap: 14px;
+}
+
+.material-detail-layout > .stack,
+.material-detail-layout > aside.stack {
+  align-content: start;
+  align-self: start;
+}
+
+.material-detail-layout .material-panel {
+  align-self: start;
+  height: auto;
+  min-height: 0;
 }
 
 .panel {
