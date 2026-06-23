@@ -86,6 +86,7 @@ export type DeployAppEdge = {
   raw_application: string | null
   application_taxonomy: string | null
   end_use_industry: string | null
+  end_use_score?: number | null
   importance: string | null
   reasoning: string | null
   taxonomy_action: string | null

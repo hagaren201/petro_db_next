@@ -27,10 +27,10 @@ export default async function MaterialPage({ params }: { params: Promise<{ mater
     materialCard?.production_process ?? materialCard?.detail_sections?.production_process?.short ?? materialCard?.detail_sections?.production_process?.raw
   )
   const strategicSnapshot = getStrategicSnapshot({
-    materialId: material.id,
     supplierSummary,
     tradeStatus: textOrNull(materialCard?.trade_status) ?? textOrNull(trade[0]?.tradeStatus)
   })
+  const exposureRows = getStrategicExposureRows(material.name, material.id)
 
   return (
     <main>
@@ -67,15 +67,11 @@ export default async function MaterialPage({ params }: { params: Promise<{ mater
                 <article className={`snapshot-card${item.isMuted ? " muted" : ""}`} key={item.label}>
                   <span>{item.label}</span>
                   <strong>{item.value}</strong>
-                  {item.items?.length ? (
-                    <ul>
-                      {item.items.slice(0, 3).map((value) => <li key={value}>{value}</li>)}
-                      {item.items.length > 3 ? <li className="more-list-item">+{item.items.length - 3} more</li> : null}
-                    </ul>
-                  ) : item.note ? <small>{item.note}</small> : null}
+                  {item.note ? <small>{item.note}</small> : null}
                 </article>
               ))}
             </div>
+            <StrategicExposureTable rows={exposureRows} />
           </div>
 
           <div className="panel material-panel stack">
@@ -152,10 +148,15 @@ type FlowItem = {
 }
 type SnapshotItem = {
   isMuted?: boolean
-  items?: string[]
   label: string
   note?: string
   value: string
+}
+type ExposureRow = {
+  application: string
+  detail: string | null
+  endUseIndustry: string | null
+  industryScore: number | null
 }
 type SupplierRow = DeploySupplierSummary["suppliers"][number]
 
@@ -199,6 +200,55 @@ function FlowNode({ item }: { item: FlowItem }) {
       {item.licensors.length ? <span>{item.licensors.join(", ")}</span> : <span className="muted-value">No licensor</span>}
       {item.context.length ? <small className="flow-context">Context: {item.context.join(" / ")}</small> : null}
     </Link>
+  )
+}
+
+function StrategicExposureTable({ rows }: { rows: ExposureRow[] }) {
+  const visibleRows = rows.slice(0, 6)
+  const hiddenRows = rows.slice(6)
+
+  if (!rows.length) {
+    return <p className="muted-copy">No strategic exposure mapping is available.</p>
+  }
+
+  return (
+    <div className="exposure-table-wrap">
+      <table className="exposure-table">
+        <thead>
+          <tr>
+            <th>Application</th>
+            <th>End-use Industry</th>
+            <th>Industry Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          {visibleRows.map((row, index) => <ExposureTableRow key={`${row.application}-${row.detail}-${row.endUseIndustry}-${index}`} row={row} />)}
+        </tbody>
+      </table>
+      {hiddenRows.length ? (
+        <details className="exposure-more">
+          <summary>+ {hiddenRows.length} more</summary>
+          <table className="exposure-table nested">
+            <tbody>
+              {hiddenRows.map((row, index) => <ExposureTableRow key={`${row.application}-${row.detail}-${row.endUseIndustry}-${index}`} row={row} />)}
+            </tbody>
+          </table>
+        </details>
+      ) : null}
+    </div>
+  )
+}
+
+function ExposureTableRow({ row }: { row: ExposureRow }) {
+  return (
+    <tr>
+      <td>
+        <strong>{row.application || "Unknown"}</strong>
+        {row.detail ? <small>{row.detail}</small> : null}
+      </td>
+      <td>{row.endUseIndustry || <span className="muted-value">Unknown</span>}</td>
+      <td>{row.industryScore === null ? <span className="muted-value">Unknown</span> : formatNumber(row.industryScore, 2)}</td>
+    </tr>
   )
 }
 
@@ -307,42 +357,15 @@ function dedupeFlowItems(items: FlowItem[]) {
 }
 
 function getStrategicSnapshot({
-  materialId,
   supplierSummary,
   tradeStatus
 }: {
-  materialId: string
   supplierSummary?: DeploySupplierSummary
   tradeStatus: string | null
 }) {
-  const materialCard = deployDb.material_card.find((card) => card.material_id === materialId)
-  const applications = uniqueTexts([
-    ...splitList(materialCard?.detail_sections?.main_application?.short ?? materialCard?.detail_sections?.main_application?.raw),
-    ...deployDb.app_edges
-      .filter((edge) => edge.material_id === materialId)
-      .map((edge) => textOrNull(edge.application_taxonomy) ?? textOrNull(edge.raw_application))
-  ])
-  const endUses = uniqueTexts([
-    ...splitList(materialCard?.detail_sections?.end_use_industry?.short ?? materialCard?.detail_sections?.end_use_industry?.raw),
-    ...deployDb.app_edges
-      .filter((edge) => edge.material_id === materialId)
-      .map((edge) => textOrNull(edge.end_use_industry))
-  ])
   const capacity = supplierSummary?.total_capacity
 
   return [
-    {
-      label: "Applications",
-      value: applications.length ? `${applications.length} mapped` : "Unknown",
-      items: applications,
-      isMuted: !applications.length
-    },
-    {
-      label: "End-use Industries",
-      value: endUses.length ? `${endUses.length} mapped` : "Unknown",
-      items: endUses,
-      isMuted: !endUses.length
-    },
     {
       label: "Domestic Capacity",
       value: capacity || capacity === 0 ? formatCapacityKta(capacity, supplierSummary?.capacity_unit ?? "KTA") : "Unknown",
@@ -355,6 +378,23 @@ function getStrategicSnapshot({
       isMuted: !tradeStatus
     }
   ] satisfies SnapshotItem[]
+}
+
+function getStrategicExposureRows(materialName: string, materialId: string): ExposureRow[] {
+  const normalizedName = materialName.trim().toLowerCase()
+  return deployDb.app_edges
+    .filter((edge) => {
+      const edgeName = textOrNull(edge.material_name)?.toLowerCase()
+      return edgeName === normalizedName || edge.material_id === materialId
+    })
+    .map((edge) => ({
+      application: taxonomyText(edge.application_taxonomy) ?? "Unknown",
+      detail: textOrNull(edge.raw_application),
+      endUseIndustry: textOrNull(edge.end_use_industry),
+      industryScore: edge.end_use_score ?? null
+    }))
+    .filter((row, index, rows) => rows.findIndex((item) => exposureKey(item) === exposureKey(row)) === index)
+    .sort((a, b) => (b.industryScore ?? -1) - (a.industryScore ?? -1) || a.application.localeCompare(b.application))
 }
 
 function sortedSupplierRows(summary?: DeploySupplierSummary) {
@@ -371,22 +411,21 @@ function formatCapacityKta(value: number | null | undefined, unit: string | null
   return `${formatNumber(value, 0)} ${unit || "KTA"}`
 }
 
-function splitList(value: unknown) {
-  const text = textOrNull(value)
-  if (!text) return []
-  return text.split(/[,;]\s*/).map((item) => item.trim()).filter(Boolean)
-}
-
 function textOrNull(value: unknown) {
   if (value === null || value === undefined) return null
   const text = String(value).trim()
   return text && text.toLowerCase() !== "unknown" ? text : null
 }
 
-function uniqueTexts(values: Array<string | null>) {
-  return Array.from(new Set(values.filter((value): value is string => Boolean(value) && value !== "0")))
+function taxonomyText(value: unknown) {
+  const text = textOrNull(value)
+  return text && text !== "0" ? text : null
 }
 
 function supplierKey(supplier: SupplierRow) {
   return `${supplier.supplier_id}-${supplier.supplier_name}-${supplier.location}-${supplier.estimated_capacity}`
+}
+
+function exposureKey(row: ExposureRow) {
+  return `${row.application}|${row.detail ?? ""}|${row.endUseIndustry ?? ""}|${row.industryScore ?? ""}`
 }

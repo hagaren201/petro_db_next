@@ -160,6 +160,7 @@ const supplierRows = readSheet(dbWorkbook, "supplier_master")
 const materialSupplierRows = readSheet(dbWorkbook, "material_supplier_link")
 const groupRows = readSheet(dbWorkbook, "group_master")
 const appRows = readSheet(dbWorkbook, "app_master")
+const endUseRows = readSheet(dbWorkbook, "end_use_id")
 const screenRows = readSheet(screenWorkbook, "screen_master")
 const strategyRows = readSheet(screenWorkbook, "material_strategy_master")
 const tradeMapRows = readSheet(tradeWorkbook, "trade")
@@ -168,6 +169,12 @@ const rawTradeRows = readSheet(tradeWorkbook, "raw")
 const screenByMaterial = byId(screenRows, "material_id")
 const strategyByMaterial = byId(strategyRows, "material_id")
 const materialById = byId(materialRows, "material_id")
+const endUseById = byId(endUseRows, "end_use_id")
+const endUseByCategory = new Map(
+  endUseRows
+    .map((row) => [text(row.end_use_category), row] as const)
+    .filter(([category]) => category)
+)
 const materialByName = new Map(
   materialRows
     .map((row) => [text(row.material_name)?.toLowerCase(), text(row.material_id)] as const)
@@ -347,6 +354,7 @@ const app_edges = appRows.map((row) => ({
   raw_application: row["raw application"] ?? null,
   application_taxonomy: row.application_taxonomy ?? null,
   end_use_industry: row.end_use_industry ?? null,
+  end_use_score: num(endUseById.get(text(row.end_use_id) ?? "")?.end_use_att) ?? num(endUseByCategory.get(text(row.end_use_industry) ?? "")?.end_use_att),
   importance: row.importance ?? null,
   reasoning: row.reasoning ?? null,
   taxonomy_action: row.taxonomy_action ?? null,
