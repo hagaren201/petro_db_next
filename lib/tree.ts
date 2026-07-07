@@ -11,18 +11,17 @@ export type StreamTreeNode = {
 export type StreamTreeGroup = {
   id: string
   label: string
-  classification: string
   color: string
   children: StreamTreeNode[]
 }
 
 const c2Groups = [
-  { id: "polyolefin", label: "Polyolefin Chain", classification: "High Volume", color: "#7c5fb8", seeds: ["HDPE", "LDPE", "LLDPE", "LAO", "PAO", "EPDM", "1-Butene", "PB-1", "1-Hexene", "1-Octene"] },
-  { id: "eo-eg", label: "EO / EG Chain", classification: "High Growth", color: "#3f9b8f", seeds: ["EO", "EC", "MEG", "PET", "Ethoxylate", "EG", "Ethanolamines"] },
-  { id: "pvc", label: "PVC Chain", classification: "Mature", color: "#3d7dcc", seeds: ["EDC", "VCM", "PVC"] },
-  { id: "oxo-alcohol", label: "Oxo / Alcohol Chain", classification: "Specialty", color: "#d68636", seeds: ["Ethanol", "n-Butanol", "2-Ethylhexanol", "Oxo Alcohols", "Ethyl acrylate"] },
-  { id: "acetate", label: "Acetate Chain", classification: "Niche", color: "#d95f68", seeds: ["VAM", "EVA", "PVA", "Ethyl acetate", "Acetaldehyde"] },
-  { id: "other", label: "Other Derivatives", classification: "Other", color: "#75808d", seeds: ["DMC", "Acrylates", "Amines", "Ethylamine", "Ethylbenzene", "Styrene", "PS", "ABS", "SAN", "SBR"] }
+  { id: "polyolefin", label: "Polyolefin Chain", color: "#7c5fb8", seeds: ["HDPE", "LDPE", "LLDPE", "LAO", "PAO", "EPDM", "1-Butene", "PB-1", "1-Hexene", "1-Octene"] },
+  { id: "eo-eg", label: "EO / EG Chain", color: "#3f9b8f", seeds: ["EO", "EC", "MEG", "PET", "Ethoxylate", "EG", "Ethanolamines"] },
+  { id: "pvc", label: "PVC Chain", color: "#3d7dcc", seeds: ["EDC", "VCM", "PVC"] },
+  { id: "oxo-alcohol", label: "Oxo / Alcohol Chain", color: "#d68636", seeds: ["Ethanol", "n-Butanol", "2-Ethylhexanol", "Oxo Alcohols", "Ethyl acrylate"] },
+  { id: "acetate", label: "Acetate Chain", color: "#d95f68", seeds: ["VAM", "EVA", "PVA", "Ethyl acetate", "Acetaldehyde"] },
+  { id: "other", label: "Other Derivatives", color: "#75808d", seeds: ["DMC", "Acrylates", "Amines", "Ethylamine", "Ethylbenzene", "Styrene", "PS", "ABS", "SAN", "SBR"] }
 ]
 
 export function buildStreamTree(graph: StreamGraph): StreamTreeGroup[] {
@@ -55,7 +54,6 @@ export function buildStreamTree(graph: StreamGraph): StreamTreeGroup[] {
       groups.push({
         id: group.id,
         label: group.label,
-        classification: group.classification,
         color: group.color,
         children: childIds.map((id) => buildNode(id, edgesBySource, byId, new Set(rootIds), 0))
       })
@@ -69,7 +67,6 @@ export function buildStreamTree(graph: StreamGraph): StreamTreeGroup[] {
     groups.push({
       id: `branch-${id}`,
       label: `${material.name} Chain`,
-      classification: "Other",
       color: "#75808d",
       children: [buildNode(id, edgesBySource, byId, new Set(rootIds), 0)]
     })
@@ -81,7 +78,6 @@ export function buildStreamTree(graph: StreamGraph): StreamTreeGroup[] {
       return {
         id: `root-${id}`,
         label: material?.name || id,
-        classification: "Other",
         color: "#75808d",
         children: [buildNode(id, edgesBySource, byId, new Set(), 0)]
       }

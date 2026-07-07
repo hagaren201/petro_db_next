@@ -173,32 +173,6 @@ h3 {
   gap: 16px;
 }
 
-.view-switch {
-  display: inline-flex;
-  width: fit-content;
-  gap: 4px;
-  padding: 4px;
-  border: 1px solid #dfe5eb;
-  border-radius: 8px;
-  background: #fff;
-}
-
-.view-switch button {
-  min-height: 34px;
-  padding: 6px 12px;
-  border: 0;
-  border-radius: 6px;
-  background: transparent;
-  color: #526071;
-  font: inherit;
-  cursor: pointer;
-}
-
-.view-switch button.active {
-  background: #17202b;
-  color: #fff;
-}
-
 .tree-map {
   display: grid;
   gap: 14px;
@@ -418,27 +392,46 @@ details:not([open]) > summary .open {
   display: block;
 }
 
+.chain-card-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.chain-card-title strong {
+  min-width: 0;
+}
+
 .chain-card small {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 8px;
+  margin-top: 6px;
   color: var(--muted);
   font-size: 12px;
 }
 
-.chain-badge {
+.score-badge {
+  flex: 0 0 auto;
   padding: 2px 7px;
   border-radius: 999px;
   background: color-mix(in srgb, var(--chain-color), white 86%);
   color: color-mix(in srgb, var(--chain-color), #152233 24%);
+  font-size: 11px;
   font-weight: 650;
+}
+
+.score-badge.muted {
+  background: #f2f4f7;
+  color: var(--muted);
 }
 
 .radial-stage {
   position: relative;
-  min-height: 720px;
+  min-height: 760px;
   overflow: hidden;
+  padding: 18px;
   border: 1px solid #e7edf3;
   border-radius: 8px;
   background:
@@ -585,6 +578,11 @@ details:not([open]) > summary .open {
   font-size: 14px;
 }
 
+.focus-lane-header span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
 .focus-lane-canvas {
   position: relative;
   min-height: 560px;
@@ -724,6 +722,7 @@ details:not([open]) > summary .open {
 .metric-grid span {
   display: grid;
   gap: 3px;
+  align-content: center;
   padding: 9px;
   border: 1px solid #edf1f5;
   border-radius: 8px;
@@ -739,6 +738,34 @@ details:not([open]) > summary .open {
 .metric-grid strong {
   color: #17202b;
   font-size: 14px;
+}
+
+.compact-summary-list {
+  display: grid;
+  gap: 8px;
+}
+
+.compact-summary-list span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid #edf1f5;
+}
+
+.compact-summary-list span:last-child {
+  border-bottom: 0;
+}
+
+.compact-summary-list small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.compact-summary-list strong {
+  color: #17202b;
+  font-size: 13px;
 }
 
 .summary-pill-list,

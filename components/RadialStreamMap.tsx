@@ -67,12 +67,6 @@ export function RadialStreamMap({ graph, initialGroupId }: { graph: StreamGraph;
       <aside className="radial-panel chain-panel">
         <div className="chain-panel-head">
           <span className="eyebrow">Chains ({sidebarChains.length}/{allSidebarChains.length})</span>
-          {selectedChain ? (
-            <button className="reset-view-button" onClick={resetView} type="button">
-              <RotateCcw size={14} />
-              Reset view
-            </button>
-          ) : null}
         </div>
         <div className="chain-card-list">
           {sidebarChains.map((chain) => (
@@ -84,9 +78,11 @@ export function RadialStreamMap({ graph, initialGroupId }: { graph: StreamGraph;
               type="button"
             >
               <span>
-                <strong>{chain.label}</strong>
+                <span className="chain-card-title">
+                  <strong>{chain.label}</strong>
+                  <ScoreBadge score={chain.groupScore} />
+                </span>
                 <small>
-                  <span className="chain-badge">{chain.classification}</span>
                   {chain.materialCount} materials
                 </small>
               </span>
@@ -149,7 +145,7 @@ export function RadialStreamMap({ graph, initialGroupId }: { graph: StreamGraph;
       </section>
 
       <aside className="radial-panel map-info-panel">
-        {selectedChain ? <SelectedChainPanel chain={selectedChain} /> : <OverviewPanel />}
+        {selectedChain ? <SelectedChainPanel chain={selectedChain} /> : <OverviewPanel chains={sidebarChains} />}
       </aside>
     </div>
   )
@@ -172,7 +168,6 @@ type MapChain = {
   label: string
   rootMaterialNames: string[]
   startingMaterialNames: string[]
-  classification: string
   color: string
   materialCount: number
   groupScore: number | null
@@ -239,7 +234,7 @@ function ChainCluster({
       >
         <GitBranch size={20} />
         <strong>{chain.label}</strong>
-        <span>{chain.classification}</span>
+        <span>Avg. {formatScore(chain.groupScore)}</span>
       </button>
     </div>
   )
@@ -262,8 +257,8 @@ function FocusedChainLane({ chain, layout }: { chain: MapChain; layout: FocusLan
   return (
     <div className="focus-lane-map" style={{ "--chain-color": chain.color } as CustomProperties}>
       <div className="focus-lane-header">
-        <span className="chain-badge">{chain.classification}</span>
         <strong>{chain.label}</strong>
+        <span>Avg. {formatScore(chain.groupScore)}</span>
       </div>
       <div className="focus-lane-canvas">
         <svg className="focus-lane-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
@@ -331,7 +326,7 @@ function SelectedChainPanel({ chain }: { chain: MapChain }) {
     <>
       <div className="info-card selected-chain-summary" style={{ "--chain-color": chain.color } as CustomProperties}>
         <h3><GitBranch size={15} /> {chain.label}</h3>
-        <p>{chain.classification} chain with {chain.materialCount} mapped materials in the current stream context.</p>
+        <p>{chain.materialCount} mapped materials in the current stream context.</p>
         <div className="summary-stat">
           <span>Materials</span>
           <strong>{chain.materialCount}</strong>
@@ -383,12 +378,25 @@ function SelectedChainPanel({ chain }: { chain: MapChain }) {
   )
 }
 
-function OverviewPanel() {
+function OverviewPanel({ chains }: { chains: MapChain[] }) {
+  const materialIds = new Set(chains.flatMap((chain) => chain.materials.map((material) => material.id)))
+  const avgGroupScore = average(chains.map((chain) => chain.groupScore).filter((value): value is number => value !== null))
+  const avgEndUseScore = average(chains.map((chain) => chain.avgEndUseAtt).filter((value): value is number => value !== null))
+
   return (
     <>
       <div className="info-card">
         <h3><Info size={15} /> About this map</h3>
         <p>Chain-first radial view of downstream groups. Click a chain card or chain node to focus the map around that chain.</p>
+      </div>
+      <div className="info-card">
+        <h3>Stream Summary</h3>
+        <div className="compact-summary-list">
+          <span><small>Visible chains</small><strong>{chains.length || "No data"}</strong></span>
+          <span><small>Mapped materials</small><strong>{materialIds.size || "No data"}</strong></span>
+          <span><small>Avg. group score</small><strong>{avgGroupScore === null ? "No data" : formatScore(avgGroupScore)}</strong></span>
+          <span><small>Avg. end-use score</small><strong>{avgEndUseScore === null ? "No data" : formatMetric(avgEndUseScore, 2)}</strong></span>
+        </div>
       </div>
       <div className="info-card legend-card">
         <h3>Legend</h3>
@@ -467,10 +475,10 @@ function chainPositionForRoot(root: { x: number; y: number }, index: number, tot
   const column = index % columns
   const gap = total <= 1 ? 0 : 12
   const x = root.x + (column - (columns - 1) / 2) * gap
-  const y = root.y + 25 + row * 18
+  const y = root.y + 23 + row * 16
   return {
     x: roundCoord(Math.max(8, Math.min(92, x))),
-    y: roundCoord(Math.max(42, Math.min(82, y)))
+    y: roundCoord(Math.max(40, Math.min(76, y)))
   }
 }
 
@@ -518,6 +526,7 @@ function buildMapChains(graph: StreamGraph, rootMaterials: Material[]): MapChain
       const chainSlug = slugify(chain.group_name || chain.group_id || `chain-${index}`)
       const materialIds = new Set(sortedMaterials.map((material) => material.id))
       const applications = deployDb.app_edges.filter((edge) => edge.material_id && materialIds.has(edge.material_id))
+      const groupScore = chain.group_score ?? average(allRows.map((row) => row.group_score ?? null).filter((value): value is number => value !== null))
 
       return matchedRoots.map((rootMaterial, rootIndex) => ({
         id: `${chain.group_id || chainSlug}-${rootMaterial.id}`,
@@ -525,10 +534,9 @@ function buildMapChains(graph: StreamGraph, rootMaterials: Material[]): MapChain
         label: chain.group_name || chain.group_id || `Chain ${index + 1}`,
         rootMaterialNames: chain.root_materials ?? [],
         startingMaterialNames: chain.starting_materials ?? [],
-        classification: classifyChain(chain.group_name, sortedMaterials),
         color: chainColors[(index + rootIndex) % chainColors.length],
         materialCount: chain.material_count,
-        groupScore: chain.group_score,
+        groupScore,
         isDefaultVisible: chain.is_default_visible === true,
         displayOrder: chain.display_order ?? index + 1000,
         avgEndUseAtt: chain.avg_end_use_att,
@@ -1114,15 +1122,6 @@ function inferRole(material: Material, depth: number, chainName: string | null):
   return "downstream"
 }
 
-function classifyChain(chainName: string | null, materials: MapMaterial[]) {
-  const name = chainName?.toLowerCase() || ""
-  if (/(pe|pp|pvc|pet|rubber)/.test(name)) return "High Volume"
-  if (/(eo|eg|pu|eva|battery|recycling)/.test(name)) return "High Growth"
-  if (/(oxo|amine|ester|specialty)/.test(name)) return "Specialty"
-  if (materials.length <= 2) return "Niche"
-  return "Mature"
-}
-
 function summarizeApplications(applications: DeployAppEdge[]) {
   const scored = new Map<string, number>()
   for (const app of applications) {
@@ -1145,6 +1144,20 @@ function scoreToNodeSize(score: number | null) {
 function formatMetric(value: number | null, digits = 0) {
   if (value === null || Number.isNaN(value)) return "-"
   return value.toFixed(digits)
+}
+
+function formatScore(value: number | null) {
+  if (value === null || Number.isNaN(value)) return "No score"
+  return value.toFixed(1)
+}
+
+function average(values: number[]) {
+  if (!values.length) return null
+  return values.reduce((sum, value) => sum + value, 0) / values.length
+}
+
+function ScoreBadge({ score }: { score: number | null }) {
+  return <span className={`score-badge${score === null ? " muted" : ""}`}>{score === null ? "No score" : `Avg. ${formatScore(score)}`}</span>
 }
 
 function slugify(value: string) {

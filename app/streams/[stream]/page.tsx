@@ -3,7 +3,6 @@ import { notFound } from "next/navigation"
 import { Suspense } from "react"
 import { ArrowLeft } from "lucide-react"
 import { buildStreamGraph, getStream } from "@/lib/data"
-import { buildStreamTree } from "@/lib/tree"
 import { StreamViews } from "@/components/StreamViews"
 
 export function generateStaticParams() {
@@ -15,7 +14,6 @@ export default async function StreamPage({ params }: { params: Promise<{ stream:
   const stream = getStream(slug)
   if (!stream) notFound()
   const graph = buildStreamGraph(stream)
-  const treeGroups = buildStreamTree(graph)
 
   return (
     <main className="stream-page">
@@ -28,7 +26,7 @@ export default async function StreamPage({ params }: { params: Promise<{ stream:
 
       <section className="section">
         <Suspense fallback={<div className="muted-copy">Loading map...</div>}>
-          <StreamViews graph={graph} treeGroups={treeGroups} />
+          <StreamViews graph={graph} />
         </Suspense>
       </section>
     </main>
