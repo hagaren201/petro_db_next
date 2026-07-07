@@ -23,6 +23,9 @@ export type DeployMaterialCard = {
   domestic_supplier: string | null
   domestic_supplier_names: string | null
   trade_status: string | null
+  end_use_att?: number | null
+  supply_value_overall_score?: number | null
+  total_score?: number | null
   detail_sections: Record<string, { category: string | null; description: string | number | null; raw: string | number | null; short: string | number | null }>
 }
 
@@ -39,6 +42,8 @@ export type DeployChainMaster = {
   is_default_visible: boolean | null
   display_order: number | null
   material_count: number
+  avg_total_score?: number | null
+  max_total_score?: number | null
   avg_end_use_att: number | null
   max_end_use_att: number | null
 }
@@ -56,6 +61,8 @@ export type DeployChainMaterialMap = {
   display_order?: number | null
   is_key_material?: boolean | null
   end_use_att: number | null
+  supply_value_overall_score?: number | null
+  total_score?: number | null
   existing_value: string | number | null
   market_growth_stage: string | null
   supply_demand: string | null

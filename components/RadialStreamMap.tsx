@@ -1035,7 +1035,7 @@ function toMapMaterial(
   const fallbackDepth = depthById.get(material.id) ?? routeDepthById.get(material.id) ?? 2
   const depth = row.depth ?? fallbackDepth
   const role = normalizeRole(row.material_role) ?? inferRole(material, depth, chainName)
-  const displayOrder = row.display_order ?? null
+  const displayOrder = row.display_order ?? (row.total_score !== null && row.total_score !== undefined ? -row.total_score : null)
 
   return {
     id: material.id,
@@ -1095,7 +1095,7 @@ function sortMapMaterial(a: MapMaterial, b: MapMaterial) {
 function isLikelyKeyMaterial(material: Material, row: DeployChainMaterialMap, chainName: string | null, depth: number) {
   const normalizedChain = slugify(chainName || "")
   const representativeNames = representativeProductsByChain[normalizedChain] ?? []
-  return representativeNames.includes(material.name) || depth <= 1 || row.end_use_att !== null || material.type === "Polymer"
+  return representativeNames.includes(material.name) || depth <= 1 || row.total_score != null || row.end_use_att !== null || material.type === "Polymer"
 }
 
 function normalizeRole(role?: string | null): MapMaterial["role"] | null {

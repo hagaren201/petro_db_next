@@ -12,7 +12,7 @@ const sourceDir = path.join(rootDir, "data", "source")
 const dbPath = path.join(sourceDir, "db.xlsx")
 const tradePath = path.join(sourceDir, "trade.xlsx")
 const preferredScreenPath = path.join(sourceDir, "db_screen.xlsx")
-const fallbackScreenPath = path.join(sourceDir, "deploy_db_0616.xlsx")
+const fallbackScreenPath = path.join(sourceDir, "db_screen-old.xlsx")
 const screenPath = existsSync(preferredScreenPath) ? preferredScreenPath : fallbackScreenPath
 const outputPath = path.join(rootDir, "public", "data", "deploy_db.json")
 
@@ -65,6 +65,14 @@ function readSheet(workbook: XLSX.WorkBook, sheetName: string): Row[] {
 
 function text(value: CellValue | undefined) {
   return value === undefined || value === null ? null : String(value)
+}
+
+function screenText(value: CellValue | undefined) {
+  const raw = text(value)
+  if (!raw) return null
+  const upper = raw.trim().toUpperCase()
+  if (errorValues.has(upper) || upper.includes("#REF!") || upper.includes("#NAME?")) return "N/A"
+  return raw
 }
 
 function num(value: CellValue | undefined) {
@@ -174,22 +182,6 @@ function warnBuild(message: string) {
   console.warn(`[build-db] ${message}`)
 }
 
-function detailSections(workbook: XLSX.WorkBook, sheetName: string | null) {
-  if (!sheetName || !workbook.Sheets[sheetName]) return {}
-  const sections: Record<string, Record<string, CellValue>> = {}
-  for (const row of readSheet(workbook, sheetName)) {
-    const category = text(row.Category)
-    if (!category) continue
-    sections[snakeCase(category)] = {
-      category,
-      description: row.Description ?? null,
-      raw: row.Raw ?? null,
-      short: row.Short ?? null
-    }
-  }
-  return sections
-}
-
 const dbWorkbook = readWorkbook(dbPath)
 const screenWorkbook = readWorkbook(screenPath)
 const tradeWorkbook = readWorkbook(tradePath)
@@ -204,12 +196,10 @@ const groupRows = readSheet(dbWorkbook, "group_master")
 const appRows = readSheet(dbWorkbook, "app_master")
 const endUseRows = readSheet(dbWorkbook, "end_use_id")
 const screenRows = readSheet(screenWorkbook, "screen_master")
-const strategyRows = readSheet(screenWorkbook, "material_strategy_master")
 const tradeMapRows = readSheet(tradeWorkbook, "trade")
 const rawTradeRows = readSheet(tradeWorkbook, "raw")
 
 const screenByMaterial = byId(screenRows, "material_id")
-const strategyByMaterial = byId(strategyRows, "material_id")
 const materialById = byId(materialRows, "material_id")
 const endUseById = byId(endUseRows, "end_use_id")
 const endUseByCategory = new Map(
@@ -230,36 +220,51 @@ const baseChemicalNameSet = new Set(
     .filter(Boolean) as string[]
 )
 
+const scoreRowsByMaterial = new Map<string, Row[]>()
+for (const row of groupRows) {
+  const materialId = text(row.material_id)
+  if (!materialId) continue
+  scoreRowsByMaterial.set(materialId, [...(scoreRowsByMaterial.get(materialId) ?? []), row])
+}
+
+function maxScore(rows: Row[] | undefined, key: string) {
+  const values = (rows ?? []).map((row) => num(row[key])).filter((value): value is number => value !== null)
+  return values.length ? Math.max(...values) : null
+}
+
 const material_card = materialRows.map((row) => {
   const materialId = text(row.material_id)
   const screen = materialId ? screenByMaterial.get(materialId) : undefined
-  const strategy = materialId ? strategyByMaterial.get(materialId) : undefined
-  const sheetName = text(screen?.sheet_name ?? strategy?.sheet_name)
+  const scoreRows = materialId ? scoreRowsByMaterial.get(materialId) : undefined
+  const sheetName = screenText(screen?.sheet_name)
 
   return {
     material_id: materialId,
-    material_name: row.material_name ?? screen?.material_name ?? strategy?.material_name ?? null,
-    material_group: row.material_group ?? screen?.material_group ?? strategy?.material_group ?? null,
+    material_name: row.material_name ?? screenText(screen?.material_name),
+    material_group: row.material_group ?? screenText(screen?.material_group),
     material_type: row.material_type ?? null,
     material_subtype: row.material_subtype ?? null,
     vertical_order: num(row.vertical_order),
-    hsk10: row.hsk10 ?? screen?.hsk10 ?? null,
+    hsk10: row.hsk10 ?? screenText(screen?.hsk10),
     remarks: row.remarks ?? null,
     visual_exclude: boolFlag(row.visual_exclude),
     ccma_snp: boolFlag(row.ccma_snp),
     ceh_ceh: boolFlag(row.ceh_ceh),
-    has_supplier: boolFlag(row.has_supplier ?? strategy?.has_supplier),
+    has_supplier: boolFlag(row.has_supplier ?? screen?.domestic_supplier),
     is_ulsan: boolFlag(row.is_ulsan),
     sheet_name: sheetName,
-    has_page: boolFlag(strategy?.has_page),
-    progress: strategy?.Progress ?? null,
-    pic: strategy?.PIC ?? null,
-    product_overview: screen?.product_overview ?? null,
-    production_process: screen?.production_process ?? null,
-    domestic_supplier: screen?.domestic_supplier ?? null,
-    domestic_supplier_names: screen?.domestic_supplier_names ?? null,
-    trade_status: screen?.trade_status ?? null,
-    detail_sections: detailSections(screenWorkbook, sheetName)
+    has_page: sheetName ? true : null,
+    progress: null,
+    pic: null,
+    product_overview: screenText(screen?.product_overview),
+    production_process: screenText(screen?.production_process),
+    domestic_supplier: screenText(screen?.domestic_supplier),
+    domestic_supplier_names: screenText(screen?.domestic_supplier_names),
+    trade_status: screenText(screen?.trade_status),
+    end_use_att: maxScore(scoreRows, "end_use_att"),
+    supply_value_overall_score: maxScore(scoreRows, "supply_value_overall_score"),
+    total_score: maxScore(scoreRows, "total_score"),
+    detail_sections: {}
   }
 })
 
@@ -278,6 +283,7 @@ const chainGroups = new Map<
     starting_materials: Set<string>
     root_materials: Set<string>
     end_use_att_values: number[]
+    total_score_values: number[]
   }
 >()
 for (const row of groupRows) {
@@ -298,12 +304,11 @@ for (const row of groupRows) {
       base_material_names: [],
       starting_materials: new Set<string>(),
       root_materials: new Set<string>(),
-      end_use_att_values: []
+      end_use_att_values: [],
+      total_score_values: []
     }
   existing.group_name ??= groupName
   existing.group_score ??= num(row.group_score)
-  existing.is_default_visible ??= boolFlag(row.is_default_visible)
-  existing.display_order ??= num(row.display_order)
   addMultiValues(existing.starting_materials, row.starting_material)
   addMultiValues(existing.root_materials, row.root_material)
   const materialId = text(row.material_id)
@@ -320,12 +325,16 @@ for (const row of groupRows) {
   }
   const endUseAtt = num(row.end_use_att)
   if (endUseAtt !== null) existing.end_use_att_values.push(endUseAtt)
+  const totalScore = num(row.total_score)
+  if (totalScore !== null) existing.total_score_values.push(totalScore)
   chainGroups.set(key, existing)
 }
 
 const chain_master = Array.from(chainGroups.values()).map((group) => {
   const totalEndUseAtt = group.end_use_att_values.reduce((sum, value) => sum + value, 0)
+  const totalMaterialScore = group.total_score_values.reduce((sum, value) => sum + value, 0)
   const relatedStreams = Array.from(new Set(group.material_groups)).sort((a, b) => a.localeCompare(b))
+  const groupScore = group.group_score ?? (group.total_score_values.length ? totalMaterialScore / group.total_score_values.length : null)
   let startingMaterials = Array.from(group.starting_materials)
   if (!startingMaterials.length) {
     const inferred = inferStartingMaterial(group)
@@ -358,14 +367,21 @@ const chain_master = Array.from(chainGroups.values()).map((group) => {
     starting_materials: startingMaterials,
     root_material: formatMultiValues(rootMaterials),
     root_materials: rootMaterials,
-    group_score: group.group_score,
-    is_default_visible: group.is_default_visible,
+    group_score: groupScore,
+    is_default_visible: groupScore !== null && groupScore > 0,
     display_order: group.display_order,
     material_count: group.material_ids.size,
+    avg_total_score: group.total_score_values.length ? totalMaterialScore / group.total_score_values.length : null,
+    max_total_score: group.total_score_values.length ? Math.max(...group.total_score_values) : null,
     avg_end_use_att: group.end_use_att_values.length ? totalEndUseAtt / group.end_use_att_values.length : null,
     max_end_use_att: group.end_use_att_values.length ? Math.max(...group.end_use_att_values) : null
   }
 })
+  .sort((a, b) => (b.group_score ?? -Infinity) - (a.group_score ?? -Infinity) || (a.group_name ?? "").localeCompare(b.group_name ?? ""))
+  .map((chain, index) => ({
+    ...chain,
+    display_order: chain.display_order ?? index + 1
+  }))
 
 const chain_material_map = groupRows
   .map((row) => {
@@ -377,13 +393,15 @@ const chain_material_map = groupRows
       material_id: materialId,
       material_name: materialName,
       group_score: num(row.group_score),
-      is_default_visible: boolFlag(row.is_default_visible),
+      is_default_visible: num(row.group_score) !== null && (num(row.group_score) ?? 0) > 0,
       material_role: row.material_role ?? null,
       depth: num(row.depth),
       parent_material_id: row.parent_material_id ?? null,
       display_order: num(row.display_order),
       is_key_material: boolFlag(row.is_key_material),
       end_use_att: num(row.end_use_att),
+      supply_value_overall_score: num(row.supply_value_overall_score),
+      total_score: num(row.total_score),
       existing_value: row.exsting_value ?? null,
       market_growth_stage: row.market_growth_stage ?? null,
       supply_demand: row.supply_demand ?? null,
