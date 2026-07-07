@@ -1,37 +1,38 @@
 "use client"
 
-import Link from "next/link"
-import { useMemo, useState } from "react"
-import { ChevronRight, Filter } from "lucide-react"
+import { Fragment, useMemo, useState } from "react"
+import { ChevronDown, ChevronRight, Filter } from "lucide-react"
 import type { ChainScreeningRow } from "@/lib/chainScreening"
 import { formatNumber } from "@/lib/data"
 
 const streams = ["All", "C1", "C2", "C3", "C4", "C5", "Aromatics"] as const
+const sortOptions = [
+  { label: "Group Score", value: "groupScore" },
+  { label: "Avg. End-use Score", value: "avgEndUseScore" },
+  { label: "Avg. Supply Score", value: "avgSupplyScore" },
+  { label: "Material Count", value: "materialCount" }
+] as const
+
+type SortKey = (typeof sortOptions)[number]["value"]
 
 export function ShortlistClient({ rows }: { rows: ChainScreeningRow[] }) {
   const [stream, setStream] = useState<(typeof streams)[number]>("All")
-  const [minimumScore, setMinimumScore] = useState("")
-  const [rootSearch, setRootSearch] = useState("")
-  const [chainSearch, setChainSearch] = useState("")
-  const [selectedGroupId, setSelectedGroupId] = useState(rows[0]?.groupId ?? "")
+  const [sortBy, setSortBy] = useState<SortKey>("groupScore")
+  const [expandedGroupId, setExpandedGroupId] = useState<string | null>(null)
 
   const filtered = useMemo(() => {
-    const minScore = minimumScore === "" ? null : Number(minimumScore)
     return rows
       .filter((row) => stream === "All" || row.streamFilter === stream)
-      .filter((row) => minScore === null || (row.groupScore !== null && row.groupScore >= minScore))
-      .filter((row) => matches(row.rootMaterial, rootSearch))
-      .filter((row) => matches(row.groupName, chainSearch))
-  }, [rows, stream, minimumScore, rootSearch, chainSearch])
+      .sort((a, b) => sortValue(b, sortBy) - sortValue(a, sortBy) || a.groupName.localeCompare(b.groupName))
+  }, [rows, stream, sortBy])
 
-  const selected = filtered.find((row) => row.groupId === selectedGroupId) ?? filtered[0] ?? null
   const evaluatedMaterialIds = new Set(rows.flatMap((row) => row.materials.map((material) => material.materialId).filter(Boolean)))
   const chainScores = rows.map((row) => row.groupScore).filter((value): value is number => value !== null)
   const summary = [
     { label: "Total chains", value: rows.length.toString() },
     { label: "Evaluated materials", value: evaluatedMaterialIds.size.toString() },
-    { label: "Average chain score", value: scoreText(average(chainScores)) },
-    { label: "Top score", value: scoreText(chainScores.length ? Math.max(...chainScores) : null) }
+    { label: "Average group score", value: scoreText(average(chainScores)) },
+    { label: "Top group score", value: scoreText(chainScores.length ? Math.max(...chainScores) : null) }
   ]
 
   return (
@@ -58,152 +59,125 @@ export function ShortlistClient({ rows }: { rows: ChainScreeningRow[] }) {
           </select>
         </label>
         <label>
-          <span>Minimum group score</span>
-          <input
-            className="input"
-            type="number"
-            min={0}
-            step={1}
-            value={minimumScore}
-            onChange={(event) => setMinimumScore(event.target.value)}
-            placeholder="e.g. 80"
-          />
-        </label>
-        <label>
-          <span>Root material</span>
-          <input className="input" value={rootSearch} onChange={(event) => setRootSearch(event.target.value)} placeholder="Search root" />
-        </label>
-        <label>
-          <span>Chain name</span>
-          <input className="input" value={chainSearch} onChange={(event) => setChainSearch(event.target.value)} placeholder="Search chain" />
+          <span>Sort by</span>
+          <select className="select" value={sortBy} onChange={(event) => setSortBy(event.target.value as SortKey)}>
+            {sortOptions.map((item) => (
+              <option key={item.value} value={item.value}>{item.label}</option>
+            ))}
+          </select>
         </label>
       </div>
 
-      <div className="screening-layout">
-        <div className="table-wrap screening-table-wrap">
-          <table className="screening-table">
-            <thead>
+      <div className="table-wrap screening-table-wrap">
+        <table className="screening-table">
+          <thead>
+            <tr>
+              <th>Chain</th>
+              <th>Stream</th>
+              <th>Root material</th>
+              <th>Materials</th>
+              <th className="numeric">Group score</th>
+              <th className="numeric">Avg. end-use score</th>
+              <th className="numeric">Avg. supply score</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filtered.map((row) => {
+              const expanded = expandedGroupId === row.groupId
+              return (
+                <Fragment key={row.groupId}>
+                  <tr
+                    className={expanded ? "expanded" : ""}
+                    onClick={() => setExpandedGroupId(expanded ? null : row.groupId)}
+                  >
+                    <td>
+                      <button className="row-button" type="button" aria-expanded={expanded}>
+                        {expanded ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                        <strong>{row.groupName}</strong>
+                      </button>
+                    </td>
+                    <td>{row.streamFilter}</td>
+                    <td>{row.rootMaterial || "Not mapped"}</td>
+                    <td>
+                      <MaterialChips row={row} />
+                    </td>
+                    <td className="numeric"><span className="score-emphasis">{scoreText(row.groupScore)}</span></td>
+                    <td className="numeric">{scoreText(row.avgEndUseScore)}</td>
+                    <td className="numeric">{scoreText(row.avgSupplyScore)}</td>
+                  </tr>
+                  {expanded ? (
+                    <tr className="expanded-detail-row">
+                      <td colSpan={7}>
+                        <ExpandedChain row={row} />
+                      </td>
+                    </tr>
+                  ) : null}
+                </Fragment>
+              )
+            })}
+            {!filtered.length ? (
               <tr>
-                <th>Rank</th>
-                <th>Chain</th>
-                <th>Stream</th>
-                <th>Root material</th>
-                <th>Materials</th>
-                <th className="numeric">Group score</th>
-                <th className="numeric">Avg. total score</th>
-                <th className="numeric">Avg. end-use score</th>
-                <th className="numeric">Avg. supply score</th>
+                <td colSpan={7}>
+                  <p className="muted-copy">No chains match the current filters.</p>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {filtered.map((row, index) => (
-                <tr
-                  className={selected?.groupId === row.groupId ? "selected" : ""}
-                  key={row.groupId}
-                  onClick={() => setSelectedGroupId(row.groupId)}
-                >
-                  <td>{index + 1}</td>
-                  <td>
-                    <button className="row-button" type="button">
-                      <strong>{row.groupName}</strong>
-                      <small>{row.groupId}</small>
-                    </button>
-                  </td>
-                  <td>{row.streamFilter}</td>
-                  <td>{row.rootMaterial || "Not mapped"}</td>
-                  <td>
-                    <span className="material-preview">
-                      <strong>{row.materialCount} materials</strong>
-                      <small>{previewMaterials(row)}</small>
-                    </span>
-                  </td>
-                  <td className="numeric"><span className="score-emphasis">{scoreText(row.groupScore)}</span></td>
-                  <td className="numeric">{scoreText(row.avgTotalScore)}</td>
-                  <td className="numeric">{scoreText(row.avgEndUseScore)}</td>
-                  <td className="numeric">{scoreText(row.avgSupplyScore)}</td>
-                </tr>
-              ))}
-              {!filtered.length ? (
-                <tr>
-                  <td colSpan={9}>
-                    <p className="muted-copy">No chains match the current filters.</p>
-                  </td>
-                </tr>
-              ) : null}
-            </tbody>
-          </table>
-        </div>
-
-        <aside className="panel chain-detail-panel">
-          {selected ? <ChainDetail row={selected} /> : <p className="muted-copy">Select a chain to view details.</p>}
-        </aside>
+            ) : null}
+          </tbody>
+        </table>
       </div>
     </section>
   )
 }
 
-function ChainDetail({ row }: { row: ChainScreeningRow }) {
+function ExpandedChain({ row }: { row: ChainScreeningRow }) {
   return (
-    <>
-      <div className="chain-detail-head">
-        <span className="badge">{row.streamFilter}</span>
-        <h2>{row.groupName}</h2>
-        <strong>{scoreText(row.groupScore)}</strong>
-      </div>
-      <dl className="chain-detail-meta">
-        <div>
-          <dt>Root material</dt>
-          <dd>{row.rootMaterial || "Not mapped"}</dd>
-        </div>
-        <div>
-          <dt>Starting material</dt>
-          <dd>{row.startingMaterials.length ? row.startingMaterials.join("; ") : "Not mapped"}</dd>
-        </div>
-      </dl>
-      <div className="detail-block">
-        <h3>Materials</h3>
-        <div className="detail-material-list">
+    <div className="expanded-chain-block">
+      <table className="nested-material-table">
+        <thead>
+          <tr>
+            <th>Material</th>
+            <th>Material type</th>
+            <th>Starting material</th>
+            <th>Root material</th>
+            <th className="numeric">Total score</th>
+            <th className="numeric">End-use score</th>
+            <th className="numeric">Supply score</th>
+          </tr>
+        </thead>
+        <tbody>
           {row.materials.map((material) => (
-            <Link href={`/materials/${material.materialId}`} key={material.materialId}>
-              <span>
-                <strong>{material.materialName}</strong>
-                <small>{material.materialType || "No data"}</small>
-              </span>
-              <span className="material-scores">
-                <small>Total {scoreText(material.totalScore)}</small>
-                <small>End-use {scoreText(material.endUseScore)}</small>
-                <small>Supply {scoreText(material.supplyScore)}</small>
-              </span>
-              <ChevronRight size={14} />
-            </Link>
+            <tr key={material.materialId}>
+              <td>{material.materialName}</td>
+              <td>{material.materialType || "No data"}</td>
+              <td>{row.startingMaterials.length ? row.startingMaterials.join("; ") : "Not mapped"}</td>
+              <td>{row.rootMaterial || "Not mapped"}</td>
+              <td className="numeric">{scoreText(material.totalScore)}</td>
+              <td className="numeric">{scoreText(material.endUseScore)}</td>
+              <td className="numeric">{scoreText(material.supplyScore)}</td>
+            </tr>
           ))}
-        </div>
-      </div>
-      <DetailPills title="Key applications" values={row.applications} />
-      <DetailPills title="End-use industries" values={row.endUseIndustries} />
-    </>
-  )
-}
-
-function DetailPills({ title, values }: { title: string; values: string[] }) {
-  return (
-    <div className="detail-block">
-      <h3>{title}</h3>
-      {values.length ? (
-        <div className="summary-pill-list">
-          {values.map((value) => (
-            <span key={value}>{value}</span>
-          ))}
-        </div>
-      ) : (
-        <p className="muted-copy">Not mapped</p>
-      )}
+        </tbody>
+      </table>
     </div>
   )
 }
 
-function matches(value: string, query: string) {
-  return !query.trim() || value.toLowerCase().includes(query.trim().toLowerCase())
+function MaterialChips({ row }: { row: ChainScreeningRow }) {
+  const visible = row.materials.slice(0, row.materials.length <= 3 ? 3 : 2)
+  const hidden = Math.max(0, row.materials.length - visible.length)
+  return (
+    <span className="material-chip-list">
+      {visible.map((material) => (
+        <span className="material-chip" key={material.materialId}>{material.materialName}</span>
+      ))}
+      {hidden ? <span className="material-chip muted">+{hidden} more</span> : null}
+    </span>
+  )
+}
+
+function sortValue(row: ChainScreeningRow, key: SortKey) {
+  const value = row[key]
+  return typeof value === "number" && Number.isFinite(value) ? value : -Infinity
 }
 
 function scoreText(value: number | null | undefined) {
@@ -214,11 +188,4 @@ function scoreText(value: number | null | undefined) {
 function average(values: number[]) {
   if (!values.length) return null
   return values.reduce((sum, value) => sum + value, 0) / values.length
-}
-
-function previewMaterials(row: ChainScreeningRow) {
-  const names = row.materials.slice(0, 3).map((material) => material.materialName)
-  if (!names.length) return "Not mapped"
-  const hidden = Math.max(0, row.materials.length - names.length)
-  return `${names.join(", ")}${hidden ? ` +${hidden} more` : ""}`
 }

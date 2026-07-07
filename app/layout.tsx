@@ -22,7 +22,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
           </Link>
           <nav>
             <Link href="/">Streams</Link>
-            <Link href="/shortlist">Shortlist</Link>
+            <Link href="/shortlist">Screening</Link>
             <Link href="/search">Search</Link>
           </nav>
         </header>
