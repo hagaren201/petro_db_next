@@ -39,6 +39,7 @@ export type DeployChainMaster = {
   root_material: string | null
   root_materials: string[]
   group_score: number | null
+  icon_id?: string | null
   is_default_visible: boolean | null
   display_order: number | null
   material_count: number

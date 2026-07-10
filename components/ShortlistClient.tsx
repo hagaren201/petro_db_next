@@ -4,6 +4,8 @@ import { Fragment, useMemo, useState } from "react"
 import { ChevronDown, ChevronRight, Filter } from "lucide-react"
 import type { ChainScreeningRow } from "@/lib/chainScreening"
 import { formatNumber } from "@/lib/data"
+import { getChainIconEntry, getMaterialIconEntry } from "@/lib/iconRegistry"
+import { IconBadge } from "./IconBadge"
 
 const streams = ["All", "C1", "C2", "C3", "C4", "C5", "Aromatics"] as const
 const sortOptions = [
@@ -84,6 +86,13 @@ export function ShortlistClient({ rows }: { rows: ChainScreeningRow[] }) {
           <tbody>
             {filtered.map((row) => {
               const expanded = expandedGroupId === row.groupId
+              const chainIcon = getChainIconEntry({ group_name: row.groupName, icon_id: row.iconId }, row.materials.map((material) => ({
+                applications: material.applications,
+                end_use_score: material.endUseScore,
+                material_name: material.materialName,
+                material_type: material.materialType,
+                total_score: material.totalScore
+              })))
               return (
                 <Fragment key={row.groupId}>
                   <tr
@@ -93,6 +102,7 @@ export function ShortlistClient({ rows }: { rows: ChainScreeningRow[] }) {
                     <td>
                       <button className="row-button" type="button" aria-expanded={expanded}>
                         {expanded ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                        <IconBadge entry={chainIcon} showLabel={false} size="sm" />
                         <strong>{row.groupName}</strong>
                       </button>
                     </td>
@@ -147,7 +157,19 @@ function ExpandedChain({ row }: { row: ChainScreeningRow }) {
         <tbody>
           {row.materials.map((material) => (
             <tr key={material.materialId}>
-              <td>{material.materialName}</td>
+              <td>
+                <span className="nested-material-name">
+                  <IconBadge
+                    entry={getMaterialIconEntry(
+                      { material_name: material.materialName, material_type: material.materialType },
+                      material.applications
+                    )}
+                    showLabel={false}
+                    size="sm"
+                  />
+                  {material.materialName}
+                </span>
+              </td>
               <td>{material.materialType || "No data"}</td>
               <td>{row.startingMaterials.length ? row.startingMaterials.join("; ") : "Not mapped"}</td>
               <td>{row.rootMaterial || "Not mapped"}</td>

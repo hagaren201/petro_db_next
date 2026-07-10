@@ -3,7 +3,9 @@ import { notFound } from "next/navigation"
 import { ArrowLeft } from "lucide-react"
 import { formatNumber, getMaterial, getMaterialTrade, petroData } from "@/lib/data"
 import { deployDb, type DeploySupplierSummary } from "@/lib/deployData"
+import { getMaterialIconEntry } from "@/lib/iconRegistry"
 import { EndUseIconGrid } from "@/components/EndUseIconGrid"
+import { IconBadge } from "@/components/IconBadge"
 import { StrategicExposureTable, type StrategicExposureRow } from "@/components/StrategicExposureTable"
 import { TradeFlowChart } from "@/components/TradeFlowChart"
 
@@ -21,6 +23,8 @@ export default async function MaterialPage({ params }: { params: Promise<{ mater
   const suppliers = sortedSupplierRows(supplierSummary)
   const trade = getMaterialTrade(material.id)
   const tradeSeries = deployDb.trade_series.find((series) => series.material_id === material.id)
+  const applicationRows = deployDb.app_edges.filter((row) => row.material_id === material.id)
+  const materialIcon = getMaterialIconEntry({ material_name: material.name, material_type: materialCard?.material_type ?? material.type }, applicationRows)
   const licensors = petroData.outputLicensors[material.id] || []
   const productOverview = textOrNull(
     materialCard?.product_overview ?? materialCard?.detail_sections?.product_overview?.short ?? materialCard?.detail_sections?.product_overview?.raw
@@ -39,7 +43,10 @@ export default async function MaterialPage({ params }: { params: Promise<{ mater
       <section className="page-head material-page-head">
         <Link className="button" href="/"><ArrowLeft size={16} /> Dashboard</Link>
         <span className="eyebrow">{material.category}</span>
-        <h1>{material.name}</h1>
+        <div className="material-title-row">
+          <IconBadge entry={materialIcon} showLabel={false} size="lg" />
+          <h1>{material.name}</h1>
+        </div>
         <p className="lead">{[material.subtype, material.remarks].filter(Boolean).join(" / ")}</p>
       </section>
 

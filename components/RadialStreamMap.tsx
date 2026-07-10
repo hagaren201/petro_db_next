@@ -6,7 +6,9 @@ import { useMemo, useState } from "react"
 import { ArrowRight, GitBranch, Info, RotateCcw } from "lucide-react"
 import type { StreamGraph } from "@/lib/data"
 import { deployDb, type DeployAppEdge, type DeployChainMaterialMap, type DeployMaterialCard, type DeployRouteEdge } from "@/lib/deployData"
+import { getChainIconEntry, getMaterialIconEntry, type MaterialIconInput } from "@/lib/iconRegistry"
 import type { Material } from "@/lib/types"
+import { IconBadge } from "./IconBadge"
 import { TypeBadge } from "./TypeBadge"
 
 const centerCoord = 50
@@ -171,6 +173,7 @@ type MapChain = {
   color: string
   materialCount: number
   groupScore: number | null
+  iconId: string | null
   isDefaultVisible: boolean
   displayOrder: number
   avgEndUseAtt: number | null
@@ -183,6 +186,7 @@ type MapChain = {
 
 type FocusLaneMaterial = {
   id: string
+  materialType?: string | null
   name: string
   type: string
   verticalOrder: number
@@ -220,6 +224,7 @@ function ChainCluster({
   const chainPosition = chainPositionForRoot(rootPosition, index, total)
   const x = roundCoord(chainPosition.x)
   const y = roundCoord(chainPosition.y)
+  const chainIcon = getChainIconEntry({ group_name: chain.label, icon_id: chain.iconId }, chainIconMaterials(chain))
 
   return (
     <div className="radial-chain active" style={{ "--chain-color": chain.color } as CustomProperties}>
@@ -232,7 +237,7 @@ function ChainCluster({
         style={{ "--chain-size": `${chainSize}px`, left: coordPercent(x), top: coordPercent(y) } as CustomProperties}
         type="button"
       >
-        <GitBranch size={20} />
+        <IconBadge entry={chainIcon} showLabel={false} size="md" />
         <strong>{chain.label}</strong>
         <span>Avg. {formatScore(chain.groupScore)}</span>
       </button>
@@ -254,9 +259,11 @@ function FocusedChainMap({
 function FocusedChainLane({ chain, layout }: { chain: MapChain; layout: FocusLaneLayout }) {
   const points = lanePoints(layout)
   const materials = layout.columns.flat()
+  const chainIcon = getChainIconEntry({ group_name: chain.label, icon_id: chain.iconId }, chainIconMaterials(chain))
   return (
     <div className="focus-lane-map" style={{ "--chain-color": chain.color } as CustomProperties}>
       <div className="focus-lane-header">
+        <IconBadge entry={chainIcon} showLabel={false} size="sm" />
         <strong>{chain.label}</strong>
         <span>Avg. {formatScore(chain.groupScore)}</span>
       </div>
@@ -298,6 +305,7 @@ function FocusedChainLane({ chain, layout }: { chain: MapChain; layout: FocusLan
               key={material.id}
               style={{ left: coordPercent(point.x), top: coordPercent(point.y) }}
             >
+              <IconBadge entry={materialIconEntry(material)} showLabel={false} size="sm" />
               <strong>{material.name}</strong>
               <small>{material.type}</small>
             </Link>
@@ -321,11 +329,12 @@ function SelectedChainPanel({ chain }: { chain: MapChain }) {
   const keyMaterials = chain.materials.filter((material) => material.isKey).slice(0, 6)
   const fallbackMaterials = chain.materials.slice(0, 6)
   const applications = summarizeApplications(chain.applications)
+  const chainIcon = getChainIconEntry({ group_name: chain.label, icon_id: chain.iconId }, chainIconMaterials(chain))
 
   return (
     <>
       <div className="info-card selected-chain-summary" style={{ "--chain-color": chain.color } as CustomProperties}>
-        <h3><GitBranch size={15} /> {chain.label}</h3>
+        <h3><IconBadge entry={chainIcon} showLabel={false} size="sm" /> {chain.label}</h3>
         <p>{chain.materialCount} mapped materials in the current stream context.</p>
         <div className="summary-stat">
           <span>Materials</span>
@@ -537,6 +546,7 @@ function buildMapChains(graph: StreamGraph, rootMaterials: Material[]): MapChain
         color: chainColors[(index + rootIndex) % chainColors.length],
         materialCount: chain.material_count,
         groupScore,
+        iconId: chain.icon_id ?? null,
         isDefaultVisible: chain.is_default_visible === true,
         displayOrder: chain.display_order ?? index + 1000,
         avgEndUseAtt: chain.avg_end_use_att,
@@ -999,11 +1009,42 @@ function uniqueMaterialsById(materials: Material[]) {
 function toFocusLaneMaterial(material: Material, isRoot: boolean): FocusLaneMaterial {
   return {
     id: material.id,
+    materialType: material.type,
     name: material.name,
     type: material.type,
     verticalOrder: material.verticalOrder,
     isRoot
   }
+}
+
+function chainIconMaterials(chain: MapChain): MaterialIconInput[] {
+  return chain.materials.map((item) => ({
+    applications: chain.applications
+      .filter((application) => application.material_id === item.id)
+      .map((application) => ({
+        app_id: application.app_id,
+        application_taxonomy: application.application_taxonomy,
+        rating: application.rating,
+        raw_application: application.raw_application
+      })),
+    end_use_score: item.mapRow?.end_use_att ?? item.card?.end_use_att ?? null,
+    material_name: item.material.name,
+    material_type: item.card?.material_type ?? item.material.type,
+    total_score: item.mapRow?.total_score ?? item.card?.total_score ?? null
+  }))
+}
+
+function materialIconEntry(material: FocusLaneMaterial) {
+  const card = deployDb.material_card.find((item) => item.material_id === material.id)
+  const applications = deployDb.app_edges
+    .filter((application) => application.material_id === material.id)
+    .map((application) => ({
+      app_id: application.app_id,
+      application_taxonomy: application.application_taxonomy,
+      rating: application.rating,
+      raw_application: application.raw_application
+    }))
+  return getMaterialIconEntry({ material_name: material.name, material_type: card?.material_type ?? material.materialType ?? material.type }, applications)
 }
 
 function sortFocusLaneMaterial(a: FocusLaneMaterial | undefined, b: FocusLaneMaterial | undefined) {

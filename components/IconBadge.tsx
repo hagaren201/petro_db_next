@@ -1,17 +1,18 @@
-import { getApplicationIconEntry, getEndUseIconEntry } from "@/lib/iconRegistry"
+import { getApplicationIconEntry, getEndUseIconEntry, getMaterialTypeIconEntry, type IconRegistryEntry } from "@/lib/iconRegistry"
 import type { CSSProperties } from "react"
 
 type IconBadgeProps = {
+  entry?: IconRegistryEntry
   id?: string | null
   label?: string | null
   preferShortLabel?: boolean
   showLabel?: boolean
   size?: "sm" | "md" | "lg"
-  type: "application" | "endUse"
+  type?: "application" | "endUse" | "materialType"
 }
 
-export function IconBadge({ id, label, preferShortLabel = false, showLabel = true, size = "md", type }: IconBadgeProps) {
-  const entry = type === "endUse" ? getEndUseIconEntry(id, label) : getApplicationIconEntry(id, label)
+export function IconBadge({ entry: explicitEntry, id, label, preferShortLabel = false, showLabel = true, size = "md", type = "application" }: IconBadgeProps) {
+  const entry = explicitEntry ?? (type === "endUse" ? getEndUseIconEntry(id, label) : type === "materialType" ? getMaterialTypeIconEntry(label ?? id) : getApplicationIconEntry(id, label))
   const Icon = entry.icon
   const displayLabel = preferShortLabel ? entry.shortLabel || label || entry.label : label || entry.shortLabel || entry.label
 

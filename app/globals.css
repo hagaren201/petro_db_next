@@ -536,6 +536,10 @@ details:not([open]) > summary .open {
   z-index: 4;
 }
 
+.chain-node .icon-badge-mark {
+  background: #fff;
+}
+
 .chain-node strong {
   max-width: 96px;
   font-size: 13px;
@@ -625,6 +629,10 @@ details:not([open]) > summary .open {
   color: #17202b;
   text-align: center;
   box-shadow: 0 12px 26px rgba(23, 31, 41, 0.08);
+}
+
+.focus-lane-node .icon-badge {
+  margin-bottom: 1px;
 }
 
 .focus-lane-node strong {
@@ -888,6 +896,12 @@ details:not([open]) > summary .open {
   font-size: 13px;
 }
 
+.nested-material-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
 .material-chip-list {
   display: flex;
   min-width: 190px;
@@ -1128,6 +1142,12 @@ th {
   color: var(--petro-navy);
   font-size: clamp(32px, 4.6vw, 48px);
   line-height: 1.02;
+}
+
+.material-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .material-page-head .lead {

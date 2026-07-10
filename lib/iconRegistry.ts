@@ -62,7 +62,42 @@ export type IconRegistryEntry = {
   foreground: string
   icon: LucideIcon
   label: string
+  material_type?: string
   shortLabel?: string
+}
+
+export type MaterialApplicationRow = {
+  app_id?: string | null
+  application_taxonomy?: string | null
+  rating?: number | null
+  raw_application?: string | number | null
+}
+
+export type MaterialIconInput = {
+  material_name?: string | null
+  material_type?: string | null
+  total_score?: number | null
+  end_use_score?: number | null
+  applications?: MaterialApplicationRow[]
+}
+
+export type MaterialIconSource = "application" | "materialType" | "fallback"
+
+export type MaterialIconResolution = {
+  application: MaterialApplicationRow | null
+  entry: IconRegistryEntry
+  source: MaterialIconSource
+}
+
+export type ChainIconInput = {
+  group_name?: string | null
+  icon_id?: string | null
+}
+
+export type ChainIconResolution = {
+  entry: IconRegistryEntry
+  selectedMaterial?: MaterialIconInput
+  source: "explicit" | "materialFallback" | "fallback"
 }
 
 const navy = "#0B2D5B"
@@ -199,6 +234,16 @@ export const applicationIconRegistry: IconRegistryEntry[] = [
   app("A43", "Fuel / fuel additive", Fuel, "#7C5C2E", "#FFF7E8", "#F0D8AE")
 ]
 
+export const materialTypeIconRegistry: IconRegistryEntry[] = [
+  materialType("Base Chemical", "Base Chemical", CircleDot, "#334155", "#F1F5F9", "#CBD5E1", "Base"),
+  materialType("Functional Material", "Functional Material", SlidersHorizontal, "#6D5BD0", "#F1EFFF", "#DAD5FF", "Functional"),
+  materialType("Intermediate", "Intermediate", FlaskConical, teal, "#E6F6F6", "#BFE4E4"),
+  materialType("Monomer", "Monomer", Atom, "#5B5BD6", "#F0F0FF", "#D8D8FF"),
+  materialType("Polymer", "Polymer", Boxes, navy, "#EAF0F7", "#C9D7E8")
+]
+
+export const genericApplicationIds = new Set(["A01", "A02", "A03"])
+
 export function getEndUseIconEntry(id?: string | null, label?: string | null) {
   return findRegistryEntry(endUseIconRegistry, id, label, "end_use_id")
 }
@@ -207,8 +252,72 @@ export function getApplicationIconEntry(id?: string | null, label?: string | nul
   return findRegistryEntry(applicationIconRegistry, id, label, "app_id")
 }
 
+export function getMaterialTypeIconEntry(materialTypeValue?: string | null) {
+  const normalizedType = normalizeMaterialType(materialTypeValue)
+  if (!normalizedType) return fallbackIconEntry
+  return materialTypeIconRegistry.find((entry) => normalizeMaterialType(entry.material_type) === normalizedType) ?? fallbackIconEntry
+}
+
+export function getMaterialIconEntry(material: MaterialIconInput | null | undefined, applicationRows: MaterialApplicationRow[] = []) {
+  return resolveMaterialIconEntry(material, applicationRows).entry
+}
+
+export function resolveMaterialIconEntry(material: MaterialIconInput | null | undefined, applicationRows: MaterialApplicationRow[] = []): MaterialIconResolution {
+  const mainApplication = selectMainApplication(applicationRows.length ? applicationRows : material?.applications ?? [])
+  if (mainApplication && !isGenericApplication(mainApplication)) {
+    const applicationEntry = getApplicationIconEntry(mainApplication.app_id, mainApplication.application_taxonomy)
+    if (applicationEntry !== fallbackIconEntry) {
+      return { application: mainApplication, entry: applicationEntry, source: "application" }
+    }
+  }
+
+  const materialTypeEntry = getMaterialTypeIconEntry(material?.material_type)
+  if (materialTypeEntry !== fallbackIconEntry) {
+    return { application: mainApplication, entry: materialTypeEntry, source: "materialType" }
+  }
+
+  return { application: mainApplication, entry: fallbackIconEntry, source: "fallback" }
+}
+
+export function selectMainApplication(applicationRows: MaterialApplicationRow[] = []) {
+  const rows = applicationRows.filter((row) => row.app_id || row.application_taxonomy || row.raw_application)
+  if (!rows.length) return null
+  return [...rows].sort((a, b) =>
+    numericValue(b.rating) - numericValue(a.rating) ||
+    stringValue(a.app_id).localeCompare(stringValue(b.app_id)) ||
+    stringValue(a.raw_application).localeCompare(stringValue(b.raw_application))
+  )[0]
+}
+
+export function getChainIconEntry(chain: ChainIconInput | null | undefined, materials: MaterialIconInput[] = []) {
+  return resolveChainIconEntry(chain, materials).entry
+}
+
+export function resolveChainIconEntry(chain: ChainIconInput | null | undefined, materials: MaterialIconInput[] = []): ChainIconResolution {
+  const explicitIconId = chain?.icon_id?.trim()
+  if (explicitIconId) {
+    const explicitEntry = getApplicationIconEntry(explicitIconId, null)
+    if (explicitEntry !== fallbackIconEntry) return { entry: explicitEntry, source: "explicit" }
+  }
+
+  const selectedMaterial = selectChainFallbackMaterial(materials)
+  if (selectedMaterial) {
+    return {
+      entry: getMaterialIconEntry(selectedMaterial, selectedMaterial.applications ?? []),
+      selectedMaterial,
+      source: "materialFallback"
+    }
+  }
+
+  return { entry: fallbackIconEntry, source: "fallback" }
+}
+
 function app(app_id: string, label: string, icon: LucideIcon, foreground: string, background: string, border: string): IconRegistryEntry {
   return { app_id, label, icon, foreground, background, border }
+}
+
+function materialType(material_type: string, label: string, icon: LucideIcon, foreground: string, background: string, border: string, shortLabel?: string): IconRegistryEntry {
+  return { material_type, label, icon, foreground, background, border, shortLabel }
 }
 
 function findRegistryEntry(entries: IconRegistryEntry[], id: string | null | undefined, label: string | null | undefined, idKey: "app_id" | "end_use_id") {
@@ -227,4 +336,47 @@ function findRegistryEntry(entries: IconRegistryEntry[], id: string | null | und
 
 function normalizeLabel(value: string | null | undefined) {
   return value?.trim().toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, " ").replace(/\s+/g, " ").trim() ?? ""
+}
+
+function normalizeMaterialType(value: string | null | undefined) {
+  const normalized = normalizeLabel(value)
+  if (!normalized) return ""
+  if (normalized === "base chemical") return "base chemical"
+  if (normalized === "functional material") return "functional material"
+  if (normalized === "intermediate") return "intermediate"
+  if (normalized === "monomer") return "monomer"
+  if (normalized === "polymer") return "polymer"
+  return normalized
+}
+
+function isGenericApplication(application: MaterialApplicationRow) {
+  const appId = application.app_id?.trim().toUpperCase()
+  return Boolean(appId && genericApplicationIds.has(appId))
+}
+
+function selectChainFallbackMaterial(materials: MaterialIconInput[]) {
+  const usableMaterials = materials.filter((material) => material.material_name || material.material_type)
+  if (!usableMaterials.length) return null
+  const nonBaseMaterials = usableMaterials.filter((material) => normalizeMaterialType(material.material_type) !== "base chemical")
+  const candidates = nonBaseMaterials.length ? nonBaseMaterials : usableMaterials
+  return [...candidates].sort((a, b) => {
+    const aIcon = resolveMaterialIconEntry(a, a.applications ?? [])
+    const bIcon = resolveMaterialIconEntry(b, b.applications ?? [])
+    const aSpecific = aIcon.source === "application" ? 1 : 0
+    const bSpecific = bIcon.source === "application" ? 1 : 0
+    return (
+      bSpecific - aSpecific ||
+      numericValue(b.end_use_score) - numericValue(a.end_use_score) ||
+      numericValue(b.total_score) - numericValue(a.total_score) ||
+      stringValue(a.material_name).localeCompare(stringValue(b.material_name))
+    )
+  })[0]
+}
+
+function numericValue(value: number | null | undefined) {
+  return typeof value === "number" && Number.isFinite(value) ? value : -Infinity
+}
+
+function stringValue(value: string | number | null | undefined) {
+  return value === null || value === undefined ? "" : String(value).trim()
 }

@@ -1,6 +1,12 @@
 import { deployDb } from "./deployData"
 
 export type ChainScreeningMaterial = {
+  applications: {
+    app_id: string | null
+    application_taxonomy: string | null
+    rating: number | null
+    raw_application: string | null
+  }[]
   materialId: string
   materialName: string
   materialType: string | null
@@ -17,6 +23,7 @@ export type ChainScreeningRow = {
   rootMaterial: string
   startingMaterials: string[]
   groupScore: number | null
+  iconId: string | null
   avgTotalScore: number | null
   maxTotalScore: number | null
   avgEndUseScore: number | null
@@ -60,6 +67,12 @@ export function buildChainScreeningRows(): ChainScreeningRow[] {
           materialId: row.material_id ?? "",
           materialName: row.material_name ?? card?.material_name ?? row.material_id ?? "Unknown",
           materialType: card?.material_type ?? null,
+          applications: row.material_id ? (appRowsByMaterial.get(row.material_id) ?? []).map((app) => ({
+            app_id: app.app_id,
+            application_taxonomy: app.application_taxonomy,
+            rating: app.rating,
+            raw_application: app.raw_application
+          })) : [],
           totalScore: row.total_score ?? card?.total_score ?? null,
           endUseScore: row.end_use_att ?? card?.end_use_att ?? null,
           supplyScore: row.supply_value_overall_score ?? card?.supply_value_overall_score ?? null
@@ -80,6 +93,7 @@ export function buildChainScreeningRows(): ChainScreeningRow[] {
         rootMaterial: chain.root_material ?? chain.root_materials?.join("; ") ?? "Not mapped",
         startingMaterials: chain.starting_materials ?? [],
         groupScore: chain.group_score ?? average(totalScores),
+        iconId: chain.icon_id ?? null,
         avgTotalScore: chain.avg_total_score ?? average(totalScores),
         maxTotalScore: chain.max_total_score ?? max(totalScores),
         avgEndUseScore: chain.avg_end_use_att ?? average(endUseScores),
